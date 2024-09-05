@@ -8,7 +8,7 @@ void PrintCyrcle (sf::RenderWindow& window)
 
     for (int i = 0; i > -360; i--)
     {
-        SetA(v, i);
+        v.SetA(i);
 
         CleanWindow (window);
 
@@ -24,7 +24,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = -350; i < 350; i++)
     {
-        SetX(v, i);
+        v.SetX(i);
 
         CleanWindow (window);
 
@@ -35,7 +35,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = 250; i > -250; i--)
     {
-        SetY(v, i);
+        v.SetY(i);
 
         CleanWindow (window);
 
@@ -46,7 +46,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = 350; i > -350; i--)
     {
-        SetX(v, i);
+        v.SetX(i);
 
         CleanWindow (window);
 
@@ -57,7 +57,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = -250; i < 250; i++)
     {
-        SetY(v, i);
+        v.SetY(i);
 
         CleanWindow (window);
 
@@ -69,11 +69,11 @@ void PrintRect (sf::RenderWindow& window)
 
 void Test (sf::RenderWindow& window)
 {
-    Vector v1 = { 50, 50 };
-    Vector v2 = { 100, 10 };
+    // Vector v1 = CtorDecVector (50, 50);
+    // Vector v2 = CtorDecVector (100, 10);
 
-    Vector v3 = SumVector (v1, v2);
-    Vector v4 = PerVector (v1);
+    // Vector v3 = SumVector (v1, v2);
+    // Vector v4 = PerVector (v1);
 
     PrintCyrcle (window);
     PrintCyrcle (window);
@@ -93,11 +93,11 @@ int main()
         i++;
         if (i == 3) return 0;
         sf::Event event;
-    //     while (window.pollEvent(event))
-    //     {
-    //         if (event.type == sf::Event::Closed)
-    //             window.close();
-    //     }
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
         CleanWindow (window);
 

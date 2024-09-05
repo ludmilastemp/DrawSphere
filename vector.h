@@ -11,31 +11,39 @@ enum CORRECT_STATUS
     all,
 };
 
-struct Vector
+class Vector
 {
     int x;
-    int y;
-    int l;
-    int a;
-    CORRECT_STATUS stat;
+
+    public:
+        int y;
+        int l;
+        int a;
+        CORRECT_STATUS stat;
+
+        int GetX ();
+        int GetY ();
+        int GetL ();
+        int GetA ();
+        
+        void SetX (int x);
+        void SetY (int y);
+        void SetL (int x);
+        void SetA (int a);
+        void SetStat (CORRECT_STATUS stat);
+
+        void ToDec ();
+        void ToPol ();
 };
 
-const Vector c00 = {400, 300};
-
 Vector CtorDecVector (int x, int y);
-Vector CtorPolVector (int l, int a);
+Vector CtorPolVector (int x, int y);
+
 Vector SumVector  (Vector v1, Vector v2);
 Vector PerVector  (Vector v1);
 Vector SwapVector (Vector v1);
-int GetX (Vector v);
-int GetY (Vector v);
-int GetL (Vector v);
-int GetA (Vector v);
-CORRECT_STATUS GetStat (Vector v);
-void SetX (Vector& v, int x);
-void SetY (Vector& v, int y);
-void SetL (Vector& v, int x);
-void SetA (Vector& v, int a);
-void SetStat (Vector& v, CORRECT_STATUS s);
+
+
+// const Vector c00 = CtorDecVector (400, 300);
 
 #endif /* STL_vector */

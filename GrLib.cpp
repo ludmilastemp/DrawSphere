@@ -6,8 +6,8 @@ void DrawLine (Vector v, Vector n, sf::RenderWindow& window);
 
 void DrawVector (Vector v, sf::RenderWindow& window)
 {
-    Vector vTemp = {GetX(v), GetY(v)};
-    Vector vSmall = {-GetX(vTemp)/COEF_HAND, -GetY(vTemp)/COEF_HAND};
+    Vector vTemp = CtorDecVector (v.GetX(), v.GetY());
+    Vector vSmall = CtorDecVector (-vTemp.GetX()/COEF_HAND, -vTemp.GetY()/COEF_HAND);
     Vector vPer  = PerVector (vSmall);
     Vector left  = SumVector (vSmall, vPer);
     Vector right = SumVector (vSmall, SwapVector(vPer));
@@ -21,8 +21,10 @@ void DrawLine (Vector v, Vector n, sf::RenderWindow& window)
 {
     sf::Vertex line[] =
     {
-        sf::Vertex(sf::Vector2f(GetX (c00) + GetX (n), GetY (c00) - GetY (n))),
-        sf::Vertex(sf::Vector2f(GetX (c00) + GetX (n) + GetX (v), GetY (c00) - GetY (n) - GetY (v)))
+        // sf::Vertex(sf::Vector2f(c00.GetX() + n.GetX(), GetY (c00) - GetY (n))),
+        // sf::Vertex(sf::Vector2f(c00.GetX() + n.GetX() + v.GetX(), GetY (c00) - GetY (n) - GetY (v)))
+        sf::Vertex(sf::Vector2f(400 + n.GetX(), 300 - n.GetY())),
+        sf::Vertex(sf::Vector2f(400 + n.GetX() + v.GetX(), 300 - n.GetY() - v.GetY()))
     };
 
     window.draw(line, 100, sf::Lines);
@@ -44,7 +46,7 @@ void CleanWindow (sf::RenderWindow& window)
 
     window.clear();
 
-    window.draw(line1, 100, sf::Lines);
-    window.draw(line2, 100, sf::Lines);
+    // window.draw(line1, 100, sf::Lines);
+    // window.draw(line2, 100, sf::Lines);
 }
 

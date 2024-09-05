@@ -1,112 +1,120 @@
 #include "vector.h"
 
-Vector ToDec (Vector v);
-Vector ToPol (Vector v);
+/**************************************************************************/
 
 Vector CtorDecVector (int x, int y)
 {
-    Vector v = {x, y, 0, 0, dec};
+    Vector v;
+    v.SetStat(dec);
+    v.SetX(x);
+    v.SetY(y);
     return v;
 }
 
 Vector CtorPolVector (int l, int a)
 {
-    Vector v = {0, 0, l, a, pol};
+    Vector v;
+    v.SetStat(pol);
+    v.SetL(l);
+    v.SetA(a);
     return v;
 }
 
+/**************************************************************************/
+
+void Vector::ToDec ()
+{
+    x = l * cos(1.0 * a * acos(-1) / 180.0);
+    y = l * sin(1.0 * a * acos(-1) / 180.0);
+    stat = all;
+}
+
+void Vector::ToPol ()
+{
+    l = sqrt (x * x + y * y);
+    a = y / x;
+    stat = all;
+}
+
+/**************************************************************************/
+
+int Vector::GetX ()
+{
+    if (stat == pol) ToDec();
+    return x;
+}
+
+int Vector::GetY ()
+{
+    if (stat == pol) ToDec();
+    return y;
+}
+
+int Vector::GetL ()
+{
+    if (stat == dec) ToPol();
+    return l;
+}
+
+int Vector::GetA ()
+{
+    if (stat == dec) ToPol();
+    return a;
+}
+
+/**************************************************************************/
+
+void Vector::SetX (int x_new)
+{
+    if (stat == pol) ToDec();
+    x = x_new;
+    stat = dec;
+}
+
+void Vector::SetY (int y_new)
+{
+    if (stat == pol) ToDec();
+    y = y_new;
+    stat = dec;
+}
+
+void Vector::SetL (int l_new)
+{
+    if (stat == dec) ToPol();
+    l = l_new;
+    stat = pol;
+}
+
+void Vector::SetA (int a_new)
+{
+    if (stat == dec) ToPol();
+    a = a_new;
+    stat = pol;
+}
+
+void Vector::SetStat (CORRECT_STATUS stat_new)
+{
+    stat = stat_new;
+}
+
+/**************************************************************************/
+
 Vector SumVector (Vector v1, Vector v2)
 {
-    Vector v = {GetX(v1) + GetX(v2), GetY(v1) + GetY(v2)};
+    Vector v = CtorDecVector (v1.GetX() + v2.GetX(), v1.GetY() + v2.GetY());
     return v;
 }
 
 Vector PerVector (Vector v1)
 {
-    Vector v = {GetY(v1), -GetX(v1)};
+    Vector v = CtorDecVector (v1.GetY(), -v1.GetX());
     return v;
 }
 
 Vector SwapVector (Vector v1)
 {
-    Vector v = {-GetX(v1), -GetY(v1)};
+    Vector v = CtorDecVector (-v1.GetX(), -v1.GetY());
     return v;
 }
 
-Vector ToDec (Vector v)
-{
-    v.x = GetL (v) * cos(1.0 * GetA (v) * acos(-1) / 180.0);
-    v.y = GetL (v) * sin(1.0 * GetA (v) * acos(-1) / 180.0);
-    SetStat (v, all);
-    return v;
-}
-
-Vector ToPol (Vector v)
-{
-    v.l = sqrt (GetX (v) * GetX (v) + GetY (v) * GetY (v));
-    v.a = GetY (v) / GetX (v);
-    SetStat (v, all);
-    return v;
-}
-
-int GetX (Vector v)
-{
-    if (GetStat (v) == pol) v = ToDec (v);
-    return v.x;
-}
-
-int GetY (Vector v)
-{
-    if (GetStat (v) == pol) v = ToDec (v);
-    return v.y;
-}
-
-int GetL (Vector v)
-{
-    if (GetStat (v) == dec) v = ToPol (v);
-    return v.l;
-}
-
-int GetA (Vector v)
-{
-    if (GetStat (v) == dec) v = ToPol (v);
-    return v.a;
-}
-
-CORRECT_STATUS GetStat (Vector v)
-{
-    return v.stat;
-}
-
-void SetX (Vector& v, int x)
-{
-    if (GetStat (v) == pol) v = ToDec (v);
-    v.x = x;
-    SetStat (v, dec);
-}
-
-void SetY (Vector& v, int y)
-{
-    if (GetStat (v) == pol) v = ToDec (v);
-    v.y = y;
-    SetStat (v, dec);
-}
-
-void SetL (Vector& v, int l)
-{
-    if (GetStat (v) == dec) v = ToPol (v);
-    v.l = l;
-    SetStat (v, pol);
-}
-
-void SetA (Vector& v, int a)
-{
-    if (GetStat (v) == dec) v = ToPol (v);
-    v.a = a;
-    SetStat (v, pol);
-}
-
-void SetStat (Vector& v, CORRECT_STATUS s)
-{
-    v.stat = s;
-}
+/**************************************************************************/
