@@ -6,11 +6,7 @@
 #include "vector.h"
 
 void DrawVector (Vector vector, sf::RenderWindow& window);
-
 void CleanWindow (sf::RenderWindow& window);
-
-
-
 
 
 #endif /* STL_GrLib */

@@ -7,7 +7,7 @@ void DrawLine (Vector v, Vector n, sf::RenderWindow& window);
 void DrawVector (Vector v, sf::RenderWindow& window)
 {
     Vector vTemp = {GetX(v), GetY(v)};
-    Vector vSmall = {-vTemp.x/COEF_HAND, -vTemp.y/COEF_HAND};
+    Vector vSmall = {-GetX(vTemp)/COEF_HAND, -GetY(vTemp)/COEF_HAND};
     Vector vPer  = PerVector (vSmall);
     Vector left  = SumVector (vSmall, vPer);
     Vector right = SumVector (vSmall, SwapVector(vPer));
@@ -21,8 +21,8 @@ void DrawLine (Vector v, Vector n, sf::RenderWindow& window)
 {
     sf::Vertex line[] =
     {
-        sf::Vertex(sf::Vector2f(c00.x + n.x, c00.y - n.y)),
-        sf::Vertex(sf::Vector2f(c00.x + n.x + v.x, c00.y - n.y - v.y))
+        sf::Vertex(sf::Vector2f(GetX (c00) + GetX (n), GetY (c00) - GetY (n))),
+        sf::Vertex(sf::Vector2f(GetX (c00) + GetX (n) + GetX (v), GetY (c00) - GetY (n) - GetY (v)))
     };
 
     window.draw(line, 100, sf::Lines);

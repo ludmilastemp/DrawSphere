@@ -6,9 +6,9 @@ void PrintCyrcle (sf::RenderWindow& window)
 {
     Vector v = CtorPolVector (250, 0);
 
-    for (int i = 0; i < 360; i++)
+    for (int i = 0; i > -360; i--)
     {
-        v = SetA(v, i);
+        SetA(v, i);
 
         CleanWindow (window);
 
@@ -24,7 +24,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = -350; i < 350; i++)
     {
-        v = SetX(v, i);
+        SetX(v, i);
 
         CleanWindow (window);
 
@@ -35,7 +35,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = 250; i > -250; i--)
     {
-        v = SetY(v, i);
+        SetY(v, i);
 
         CleanWindow (window);
 
@@ -46,7 +46,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = 350; i > -350; i--)
     {
-        v = SetX(v, i);
+        SetX(v, i);
 
         CleanWindow (window);
 
@@ -57,7 +57,7 @@ void PrintRect (sf::RenderWindow& window)
 
     for (int i = -250; i < 250; i++)
     {
-        v = SetY(v, i);
+        SetY(v, i);
 
         CleanWindow (window);
 
@@ -84,22 +84,24 @@ void Test (sf::RenderWindow& window)
 int main()
 {
     printf ("Start\n");
+    int i = 0;
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 
     while (window.isOpen())
     {
+        i++;
+        if (i == 3) return 0;
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    //     while (window.pollEvent(event))
+    //     {
+    //         if (event.type == sf::Event::Closed)
+    //             window.close();
+    //     }
 
         CleanWindow (window);
 
         Test(window);
-
 
         window.display();
     }

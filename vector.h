@@ -2,6 +2,7 @@
 #define STL_vector
 
 #include <math.h>
+#include <assert.h>
 
 enum CORRECT_STATUS
 {
@@ -30,9 +31,11 @@ int GetX (Vector v);
 int GetY (Vector v);
 int GetL (Vector v);
 int GetA (Vector v);
-Vector SetX (Vector v, int x);
-Vector SetY (Vector v, int y);
-Vector SetL (Vector v, int x);
-Vector SetA (Vector v, int a);
+CORRECT_STATUS GetStat (Vector v);
+void SetX (Vector& v, int x);
+void SetY (Vector& v, int y);
+void SetL (Vector& v, int x);
+void SetA (Vector& v, int a);
+void SetStat (Vector& v, CORRECT_STATUS s);
 
 #endif /* STL_vector */

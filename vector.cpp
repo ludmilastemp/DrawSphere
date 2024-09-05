@@ -17,90 +17,96 @@ Vector CtorPolVector (int l, int a)
 
 Vector SumVector (Vector v1, Vector v2)
 {
-    Vector v = {v1.x + v2.x, v1.y + v2.y};
+    Vector v = {GetX(v1) + GetX(v2), GetY(v1) + GetY(v2)};
     return v;
 }
 
 Vector PerVector (Vector v1)
 {
-    Vector v = {v1.y, -v1.x};
+    Vector v = {GetY(v1), -GetX(v1)};
     return v;
 }
 
 Vector SwapVector (Vector v1)
 {
-    Vector v = {-v1.x, -v1.y};
+    Vector v = {-GetX(v1), -GetY(v1)};
     return v;
 }
 
 Vector ToDec (Vector v)
 {
-    v.x = v.l * cos(1.0 * v.a * acos(-1) / 180.0);
-    v.y = v.l * sin(1.0 * v.a * acos(-1) / 180.0);
-    v.stat = all;
+    v.x = GetL (v) * cos(1.0 * GetA (v) * acos(-1) / 180.0);
+    v.y = GetL (v) * sin(1.0 * GetA (v) * acos(-1) / 180.0);
+    SetStat (v, all);
     return v;
 }
 
 Vector ToPol (Vector v)
 {
-    v.l = sqrt (v.x * v.x + v.y * v.y);
-    v.a = v.y / v.x;
-    v.stat = all;
+    v.l = sqrt (GetX (v) * GetX (v) + GetY (v) * GetY (v));
+    v.a = GetY (v) / GetX (v);
+    SetStat (v, all);
     return v;
 }
 
 int GetX (Vector v)
 {
-    if (v.stat == pol) v = ToDec (v);
+    if (GetStat (v) == pol) v = ToDec (v);
     return v.x;
 }
 
 int GetY (Vector v)
 {
-    if (v.stat == pol) v = ToDec (v);
+    if (GetStat (v) == pol) v = ToDec (v);
     return v.y;
 }
 
 int GetL (Vector v)
 {
-    if (v.stat == dec) v = ToPol (v);
+    if (GetStat (v) == dec) v = ToPol (v);
     return v.l;
 }
 
 int GetA (Vector v)
 {
-    if (v.stat == dec) v = ToPol (v);
+    if (GetStat (v) == dec) v = ToPol (v);
     return v.a;
 }
 
-Vector SetX (Vector v, int x)
+CORRECT_STATUS GetStat (Vector v)
 {
-    if (v.stat == pol) v = ToDec (v);
+    return v.stat;
+}
+
+void SetX (Vector& v, int x)
+{
+    if (GetStat (v) == pol) v = ToDec (v);
     v.x = x;
-    v.stat = dec;
-    return v;
+    SetStat (v, dec);
 }
 
-Vector SetY (Vector v, int y)
+void SetY (Vector& v, int y)
 {
-    if (v.stat == pol) v = ToDec (v);
+    if (GetStat (v) == pol) v = ToDec (v);
     v.y = y;
-    v.stat = dec;
-    return v;
+    SetStat (v, dec);
 }
 
-Vector SetL (Vector v, int l)
+void SetL (Vector& v, int l)
 {
-    if (v.stat == dec) v = ToPol (v);
+    if (GetStat (v) == dec) v = ToPol (v);
     v.l = l;
-    v.stat = pol;
-    return v;
+    SetStat (v, pol);
 }
 
-Vector SetA (Vector v, int a)
+void SetA (Vector& v, int a)
 {
-    if (v.stat == dec) v = ToPol (v);
+    if (GetStat (v) == dec) v = ToPol (v);
     v.a = a;
-    v.stat = pol;
-    return v;
+    SetStat (v, pol);
+}
+
+void SetStat (Vector& v, CORRECT_STATUS s)
+{
+    v.stat = s;
 }
