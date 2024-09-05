@@ -1,0 +1,5 @@
+rm a.out
+
+g++ main.cpp GrLib.cpp vector.cpp -lsfml-graphics -lsfml-window -lsfml-system
+
+./a.out
