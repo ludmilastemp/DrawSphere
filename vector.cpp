@@ -1,120 +1,127 @@
 #include "vector.h"
 
-/**************************************************************************/
-
-Vector CtorDecVector (int x, int y)
-{
-    Vector v;
-    v.SetStat(dec);
-    v.SetX(x);
-    v.SetY(y);
-    return v;
-}
-
-Vector CtorPolVector (int l, int a)
-{
-    Vector v;
-    v.SetStat(pol);
-    v.SetL(l);
-    v.SetA(a);
-    return v;
-}
+// DANGEROUS!!! все операторы определены только для декартовой системы (еще и без проверок)!!!
 
 /**************************************************************************/
 
-void Vector::ToDec ()
-{
-    x = l * cos(1.0 * a * acos(-1) / 180.0);
-    y = l * sin(1.0 * a * acos(-1) / 180.0);
-    stat = all;
-}
+Vector::Vector (int x, int y) 
+    : x_(x), y_(y), stat_(DEC)
+{}
 
-void Vector::ToPol ()
-{
-    l = sqrt (x * x + y * y);
-    a = y / x;
-    stat = all;
-}
+Vector::Vector (int len, double phi)
+    : len_(len), phi_((int)phi), stat_(POL)
+{}
 
 /**************************************************************************/
 
-int Vector::GetX ()
+Vector Vector::operator+ (Vector& v2)
 {
-    if (stat == pol) ToDec();
-    return x;
+    return Vector {x_ + v2.getX(), y_ + v2.getY()};
 }
 
-int Vector::GetY ()
+Vector Vector::operator* (int mul)
 {
-    if (stat == pol) ToDec();
-    return y;
+    return Vector {x_ * mul, y_ * mul};
 }
 
-int Vector::GetL ()
+Vector Vector::operator- ()
 {
-    if (stat == dec) ToPol();
-    return l;
+    return Vector {-x_, -y_};
 }
 
-int Vector::GetA ()
+Vector Vector::operator~ ()
 {
-    if (stat == dec) ToPol();
-    return a;
+    return Vector {y_, -x_};
 }
+
+Vector Vector::operator! ()
+{
+    return Vector {x_ / abs(x_), y_ / abs(y_)};
+}
+
 
 /**************************************************************************/
 
-void Vector::SetX (int x_new)
+void Vector::updateDec ()
 {
-    if (stat == pol) ToDec();
-    x = x_new;
-    stat = dec;
+    x_ = len_ * cos(1.0 * phi_ * acos(-1) / 180.0);
+    y_ = len_ * sin(1.0 * phi_ * acos(-1) / 180.0);
+    stat_ = ALL;
 }
 
-void Vector::SetY (int y_new)
+void Vector::updatePol ()
 {
-    if (stat == pol) ToDec();
-    y = y_new;
-    stat = dec;
-}
+    len_ = sqrt (x_ * x_ + y_ * y_);
+    
+    if (x_ == 0)
+        phi_ = 90 * y_ / abs (y_);
+    else 
+        phi_ = y_ / x_;
 
-void Vector::SetL (int l_new)
-{
-    if (stat == dec) ToPol();
-    l = l_new;
-    stat = pol;
-}
-
-void Vector::SetA (int a_new)
-{
-    if (stat == dec) ToPol();
-    a = a_new;
-    stat = pol;
-}
-
-void Vector::SetStat (CORRECT_STATUS stat_new)
-{
-    stat = stat_new;
+    stat_ = ALL;
 }
 
 /**************************************************************************/
 
-Vector SumVector (Vector v1, Vector v2)
+int Vector::getX ()
 {
-    Vector v = CtorDecVector (v1.GetX() + v2.GetX(), v1.GetY() + v2.GetY());
-    return v;
+    if (stat_ == POL) updateDec(); 
+    return x_;
 }
 
-Vector PerVector (Vector v1)
+int Vector::getY ()
 {
-    Vector v = CtorDecVector (v1.GetY(), -v1.GetX());
-    return v;
+    if (stat_ == POL) updateDec();
+    return y_;
 }
 
-Vector SwapVector (Vector v1)
+int Vector::getLen ()
 {
-    Vector v = CtorDecVector (-v1.GetX(), -v1.GetY());
-    return v;
+    if (stat_ == DEC) updatePol();
+    return len_;
 }
+
+int Vector::getPhi ()
+{
+    if (stat_ == DEC) updatePol();
+    return phi_;
+}
+
+/**************************************************************************/
+
+void Vector::setX (int x)
+{
+    if (stat_ == POL) updateDec();
+    x_ = x;
+    stat_ = DEC;
+}
+
+void Vector::setY (int y)
+{
+    if (stat_ == POL) updateDec();
+    y_ = y;
+    stat_ = DEC;
+}
+
+void Vector::setLen (int len)
+{
+    if (stat_ == DEC) updatePol();
+    len_ = len;
+    stat_ = POL;
+}
+
+void Vector::setPhi (int phi)
+{
+    if (stat_ == DEC) updatePol();
+    phi_ = phi;
+    stat_ = POL;
+}
+
+void Vector::setStat (VectorStatus stat)
+{
+    stat_ = stat;
+}
+
+/**************************************************************************/
 
 /**************************************************************************/

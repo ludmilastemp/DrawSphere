@@ -4,73 +4,73 @@
 
 void PrintCyrcle (sf::RenderWindow& window)
 {
-    Vector v = CtorPolVector (250, 0);
+    Vector v {250, 0.0};
 
     for (int i = 0; i > -360; i--)
     {
-        v.SetA(i);
+        v.setPhi(i);
 
         CleanWindow (window);
 
         DrawVector (v, window);
 
-        window.display();
+        DisplayWindow(window);
     }
 }
 
 void PrintRect (sf::RenderWindow& window)
 {
-    Vector v = CtorDecVector (-350, 250);
+    Vector v {-350, 250};
 
     for (int i = -350; i < 350; i++)
     {
-        v.SetX(i);
+        v.setX(i);
 
         CleanWindow (window);
 
         DrawVector (v, window);
 
-        window.display();
+        DisplayWindow(window);
     }
 
     for (int i = 250; i > -250; i--)
     {
-        v.SetY(i);
+        v.setY(i);
 
         CleanWindow (window);
 
         DrawVector (v, window);
 
-        window.display();
+        DisplayWindow(window);
     }
 
     for (int i = 350; i > -350; i--)
     {
-        v.SetX(i);
+        v.setX(i);
 
         CleanWindow (window);
 
         DrawVector (v, window);
 
-        window.display();
+        DisplayWindow(window);
     }
 
     for (int i = -250; i < 250; i++)
     {
-        v.SetY(i);
+        v.setY(i);
 
         CleanWindow (window);
 
         DrawVector (v, window);
 
-        window.display();
+        DisplayWindow(window);
     }
 }
 
 void Test (sf::RenderWindow& window)
 {
-    // Vector v1 = CtorDecVector (50, 50);
-    // Vector v2 = CtorDecVector (100, 10);
+    // Vector v1 {50, 50};
+    // Vector v2 {100, 10};
 
     // Vector v3 = SumVector (v1, v2);
     // Vector v4 = PerVector (v1);
@@ -91,7 +91,7 @@ int main()
     while (window.isOpen())
     {
         i++;
-        if (i == 3) return 0;
+        if (i == 2) return 0;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -103,7 +103,7 @@ int main()
 
         Test(window);
 
-        window.display();
+        DisplayWindow(window);
     }
 
     return 0;

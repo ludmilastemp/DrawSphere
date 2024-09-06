@@ -1,49 +1,55 @@
 #ifndef STL_vector
 #define STL_vector
 
+#include <stdio.h>
 #include <math.h>
 #include <assert.h>
 
-enum CORRECT_STATUS
-{
-    dec,
-    pol,
-    all,
-};
+/// const_cast
 
 class Vector
 {
-    int x;
+private:
 
-    public:
-        int y;
-        int l;
-        int a;
-        CORRECT_STATUS stat;
+    enum VectorStatus
+    {
+        DEC,
+        POL,
+        ALL,
+    };
 
-        int GetX ();
-        int GetY ();
-        int GetL ();
-        int GetA ();
-        
-        void SetX (int x);
-        void SetY (int y);
-        void SetL (int x);
-        void SetA (int a);
-        void SetStat (CORRECT_STATUS stat);
+    int x_ {}; 
+    int y_ {};
+    int len_ {}; 
+    int phi_ {}; 
+    VectorStatus stat_ {ALL};
 
-        void ToDec ();
-        void ToPol ();
+    void updateDec ();
+    void updatePol ();
+
+public:
+
+    Vector (int x, int y);
+    Vector (int len, double a);
+
+    Vector operator+ (Vector& v2);
+    Vector operator* (int mul);
+    Vector operator- ();
+    Vector operator~ (); /* перпендикулярный вектор */
+    Vector operator! (); /* нормализованный  вектор */ // do not working
+
+    int getX (); 
+    int getY ();
+    int getLen ();
+    int getPhi ();
+    
+    void setX (int x);
+    void setY (int y);
+    void setLen (int x);
+    void setPhi (int a);
+    void setStat (VectorStatus stat);
 };
 
-Vector CtorDecVector (int x, int y);
-Vector CtorPolVector (int x, int y);
-
-Vector SumVector  (Vector v1, Vector v2);
-Vector PerVector  (Vector v1);
-Vector SwapVector (Vector v1);
-
-
-// const Vector c00 = CtorDecVector (400, 300);
+const Vector c00 {400, 300};
 
 #endif /* STL_vector */
