@@ -5,6 +5,9 @@
 #include <math.h>
 #include <assert.h>
 
+#include "vectorDec.h"
+#include "vectorPol.h"
+
 /// const_cast
 
 class Vector
@@ -18,25 +21,28 @@ private:
         ALL,
     };
 
-    int x_ {}; 
-    int y_ {};
-    int len_ {}; 
-    int phi_ {}; 
+    VectorDec dec_ {};
+    VectorPol pol_ {};
+
     VectorStatus stat_ {ALL};
 
-    void updateDec ();
-    void updatePol ();
+    // void updateDec ();
+    // void updatePol ();
 
 public:
 
     Vector (int x, int y);
-    Vector (int len, double a);
+    Vector (int len, double phi);
+    Vector (const VectorDec& vDec);
+    Vector (const VectorPol& vPol);
+
+    // Vector (int len, double a);
 
     Vector operator+ (Vector& v2);
     Vector operator* (int mul);
     Vector operator- ();
     Vector operator~ (); /* перпендикулярный вектор */
-    Vector operator! (); /* нормализованный  вектор */ // do not working
+    Vector operator! (); /* нормализованный  вектор */ 
 
     int getX (); 
     int getY ();
@@ -49,7 +55,5 @@ public:
     void setPhi (int a);
     void setStat (VectorStatus stat);
 };
-
-const Vector c00 {400, 300};
 
 #endif /* STL_vector */

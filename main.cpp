@@ -2,6 +2,31 @@
 #include "GrLib.h"
 #include "vector.h"
 
+// ВЕЗДЕ const&
+
+const int RADIUS = 250;
+
+void DrawShere (sf::RenderWindow& window)
+{
+    sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
+
+    for (int i = -WIDTH_WINDOW; i < WIDTH_WINDOW; i++)
+    {
+        for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
+        {
+            if (i * i + j * j <= RADIUS * RADIUS)
+            {
+                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Red);
+            }
+            else 
+            {
+                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Yellow);
+            }
+        }
+        window.draw(points);
+    } 
+}
+
 void FollowMouse (sf::RenderWindow& window)
 {
     while (true)
@@ -9,7 +34,7 @@ void FollowMouse (sf::RenderWindow& window)
         CleanWindow (window);
 
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        Vector v {pos.x - 400, -pos.y + 300};
+        Vector v {pos.x - WIDTH_WINDOW, -pos.y + HEIGHT_WINDOW};
         DrawVector (v, window);
 
         DisplayWindow(window);
@@ -100,12 +125,14 @@ int main()
     printf ("Start\n");
     int i = 0;
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW * 2, HEIGHT_WINDOW * 2), "SFML works!");
+    sf::Image img;
+    img.create(WIDTH_WINDOW * 2, HEIGHT_WINDOW * 2, sf::Color::Black);
 
     while (window.isOpen())
     {
         i++;
-        if (i == 2) return 0;
+        // if (i == 2) return 0;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -115,9 +142,9 @@ int main()
 
         CleanWindow (window);
 
-        Test (window);
-        //FollowMouse (window);
-
+        // Test (window);
+        // FollowMouse (window);
+        DrawShere (window);
 
         DisplayWindow(window);
     }

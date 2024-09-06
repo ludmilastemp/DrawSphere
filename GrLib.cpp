@@ -29,8 +29,8 @@ void DrawLine (Vector v, Vector n, sf::RenderWindow& window)
 {
     sf::Vertex line[] =
     {
-        sf::Vertex(sf::Vector2f(400 + n.getX(), 300 - n.getY())),
-        sf::Vertex(sf::Vector2f(400 + n.getX() + v.getX(), 300 - n.getY() - v.getY()))
+        sf::Vertex(sf::Vector2f(WIDTH_WINDOW + n.getX(), HEIGHT_WINDOW - n.getY())),
+        sf::Vertex(sf::Vector2f(WIDTH_WINDOW + n.getX() + v.getX(), HEIGHT_WINDOW - n.getY() - v.getY()))
     };
 
     window.draw(line, 100, sf::Lines);
@@ -45,14 +45,14 @@ void CleanWindow (sf::RenderWindow& window)
 {
     // sf::Vertex line1[] =
     // {
-    //     sf::Vertex(sf::Vector2f(400, 0)),
-    //     sf::Vertex(sf::Vector2f(400, 600))
+    //     sf::Vertex(sf::Vector2f(WIDTH_WINDOW, 0)),
+    //     sf::Vertex(sf::Vector2f(WIDTH_WINDOW, 600))
     // };
 
     // sf::Vertex line2[] =
     // {
-    //     sf::Vertex(sf::Vector2f(0, 300)),
-    //     sf::Vertex(sf::Vector2f(800, 300))
+    //     sf::Vertex(sf::Vector2f(0, HEIGHT_WINDOW)),
+    //     sf::Vertex(sf::Vector2f(800, HEIGHT_WINDOW))
     // };
 
     window.clear();
