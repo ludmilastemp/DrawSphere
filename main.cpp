@@ -14,13 +14,17 @@ void DrawShere (sf::RenderWindow& window)
     {
         for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
         {
-            if (i * i + j * j <= RADIUS * RADIUS)
+            int r1 = i * i + j * j;
+            if (r1 <= RADIUS * RADIUS)
             {
-                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Red);
+                int color = (RADIUS * RADIUS - r1) % 255;
+                points[j + HEIGHT_WINDOW] = 
+                    sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                               sf::Color (color, color, color));
             }
             else 
             {
-                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Yellow);
+                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Green);
             }
         }
         window.draw(points);
