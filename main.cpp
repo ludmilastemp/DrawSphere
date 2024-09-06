@@ -2,6 +2,20 @@
 #include "GrLib.h"
 #include "vector.h"
 
+void FollowMouse (sf::RenderWindow& window)
+{
+    while (true)
+    {
+        CleanWindow (window);
+
+        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        Vector v {pos.x - 400, -pos.y + 300};
+        DrawVector (v, window);
+
+        DisplayWindow(window);
+    }
+}
+
 void PrintCyrcle (sf::RenderWindow& window)
 {
     Vector v {250, 0.0};
@@ -101,7 +115,9 @@ int main()
 
         CleanWindow (window);
 
-        Test(window);
+        Test (window);
+        //FollowMouse (window);
+
 
         DisplayWindow(window);
     }
