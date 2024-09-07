@@ -5,8 +5,8 @@
 // ВЕЗДЕ const&
 
 const int RADIUS = 250;
-const int Lx = 300;
-const int Lz = 200;
+const int Lx = 150;
+const int Lz = 0;
 
 void DrawShere3D (sf::RenderWindow& window)
 {
@@ -20,7 +20,7 @@ void DrawShere3D (sf::RenderWindow& window)
             if (r1 <= RADIUS * RADIUS)
             {   
                 Vector L {Lx, Lz};
-                Vector P {i, j};
+                Vector P {i, sqrt(RADIUS * RADIUS - r1)};
                 Vector Pm = -P;
                 Vector diff = L + Pm;
                 phi_t brightnessCoef = P.getPhi() - diff.getPhi();
