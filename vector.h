@@ -26,33 +26,33 @@ private:
 
     VectorStatus stat_ {ALL};
 
-    // void updateDec ();
-    // void updatePol ();
+    void updateDec ();
+    void updatePol ();
 
 public:
 
-    Vector (int x, int y);
+    Vector (x_t x, int y);
     Vector (int len, double phi);
     Vector (const VectorDec& vDec);
     Vector (const VectorPol& vPol);
 
     // Vector (int len, double a);
 
-    Vector operator+ (Vector& v2);
-    Vector operator* (int mul);
-    Vector operator- ();
-    Vector operator~ (); /* перпендикулярный вектор */
-    Vector operator! (); /* нормализованный  вектор */ 
+    Vector operator+ (const Vector& v2) const;
+    Vector operator* (const int mul) const;
+    Vector operator- () const;
+    Vector operator~ () const; /* перпендикулярный вектор */
+    Vector operator! () const; /* нормализованный  вектор */ 
 
-    int getX (); 
+    x_t getX (); 
     int getY ();
     int getLen ();
-    int getPhi ();
+    double getPhi ();
     
-    void setX (int x);
+    void setX (x_t x);
     void setY (int y);
-    void setLen (int x);
-    void setPhi (int a);
+    void setLen (int len);
+    void setPhi (double phi);
     void setStat (VectorStatus stat);
 };
 

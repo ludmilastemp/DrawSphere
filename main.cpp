@@ -5,6 +5,8 @@
 // ВЕЗДЕ const&
 
 const int RADIUS = 250;
+const int Lx = 300;
+const int Lz = 200;
 
 void DrawShere (sf::RenderWindow& window)
 {
@@ -17,7 +19,7 @@ void DrawShere (sf::RenderWindow& window)
             int r1 = i * i + j * j;
             if (r1 <= RADIUS * RADIUS)
             {
-                int color = (RADIUS * RADIUS - r1) % 255;
+                int color = 1.0 * (RADIUS * RADIUS - r1) / (RADIUS * RADIUS) * 255;
                 points[j + HEIGHT_WINDOW] = 
                     sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
                                sf::Color (color, color, color));
@@ -49,7 +51,7 @@ void PrintCyrcle (sf::RenderWindow& window)
 {
     Vector v {250, 0.0};
 
-    for (int i = 0; i > -360; i--)
+    for (double i = 0; i > -PI * 2; i -= 0.01)
     {
         v.setPhi(i);
 
@@ -136,7 +138,7 @@ int main()
     while (window.isOpen())
     {
         i++;
-        // if (i == 2) return 0;
+        if (i == 2) return 0;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -146,8 +148,8 @@ int main()
 
         CleanWindow (window);
 
-        // Test (window);
-        // FollowMouse (window);
+        Test (window);
+        //FollowMouse (window);
         DrawShere (window);
 
         DisplayWindow(window);

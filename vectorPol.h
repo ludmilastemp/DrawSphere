@@ -7,29 +7,31 @@
 
 /// const_cast
 
+const double PI = 3.14;
+
 class VectorPol
 {
 private:
 
     int len_ {}; 
-    int phi_ {}; 
+    double phi_ {}; 
 
 public:
 
-    VectorPol (int len = 0, double a = 0);
+    VectorPol (int len = 0, double phi = 0);
     VectorPol (const VectorPol& vPol);
 
-    VectorPol operator+ (VectorPol& v2);
-    VectorPol operator* (int mul);
-    VectorPol operator- ();
-    VectorPol operator~ (); /* перпендикулярный вектор */
-    VectorPol operator! (); /* нормализованный  вектор */ // do not working
+    VectorPol operator+ (const VectorPol& v2) const;
+    VectorPol operator* (const int mul) const;
+    VectorPol operator- () const;
+    VectorPol operator~ () const; /* перпендикулярный вектор */
+    VectorPol operator! () const; /* нормализованный  вектор */ // do not working
 
-    int getLen ();
-    int getPhi ();
+    int getLen () const;
+    double getPhi () const;
     
-    void setLen (int x);
-    void setPhi (int a);
+    void setLen (int len);
+    void setPhi (double phi);
 };
 
 

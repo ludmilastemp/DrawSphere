@@ -3,7 +3,7 @@
 /**************************************************************************/
 
 VectorPol::VectorPol (int len, double phi)
-    : len_(len), phi_((int)phi)
+    : len_(len), phi_(phi)
 {}
 
 VectorPol::VectorPol (const VectorPol& vPol) 
@@ -11,41 +11,41 @@ VectorPol::VectorPol (const VectorPol& vPol)
 {}
 
 /**************************************************************************/
-/*
-VectorPol VectorPol::operator+ (VectorPol& v2)
+
+VectorPol VectorPol::operator+ (const VectorPol& v2) const
 {
-    return VectorPol {};
+    assert (0);
+    return v2;
 }
 
-VectorPol VectorPol::operator* (int mul)
+VectorPol VectorPol::operator* (const int mul) const
 {
-    return VectorPol {};
+    return VectorPol {len_ * mul, phi_};
 }
 
-VectorPol VectorPol::operator- ()
+VectorPol VectorPol::operator- () const
 {
-    return VectorPol {};
+    return VectorPol {len_, phi_ + PI};
 }
 
-VectorPol VectorPol::operator~ ()
+VectorPol VectorPol::operator~ () const
 {
-    return VectorPol {};
+    return VectorPol {len_, phi_ + PI / 2};
 }
 
-VectorPol VectorPol::operator! ()
+VectorPol VectorPol::operator! () const
 {
-    return VectorPol {};
+    return VectorPol {1, phi_};
 }
-*/
 
 /**************************************************************************/
 
-int VectorPol::getLen ()
+int VectorPol::getLen () const
 {
     return len_;
 }
 
-int VectorPol::getPhi ()
+double VectorPol::getPhi () const
 {
     return phi_;
 }
@@ -57,7 +57,7 @@ void VectorPol::setLen (int len)
     len_ = len;
 }
 
-void VectorPol::setPhi (int phi)
+void VectorPol::setPhi (double phi)
 {
     phi_ = phi;
 }
