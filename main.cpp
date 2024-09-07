@@ -8,6 +8,39 @@ const int RADIUS = 250;
 const int Lx = 300;
 const int Lz = 200;
 
+void DrawShere3D (sf::RenderWindow& window)
+{
+    sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
+
+    for (int i = -WIDTH_WINDOW; i < WIDTH_WINDOW; i++)
+    {
+        for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
+        {
+            int r1 = i * i + j * j;
+            if (r1 <= RADIUS * RADIUS)
+            {   
+                Vector L {Lx, Lz};
+                Vector P {i, j};
+                Vector Pm = -P;
+                Vector diff = L + Pm;
+                phi_t brightnessCoef = P.getPhi() - diff.getPhi();
+
+                int color = cos(brightnessCoef) * 255;
+                points[j + HEIGHT_WINDOW] = 
+                    sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                               sf::Color (color, color, color));
+
+                
+            }
+            else 
+            {
+                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Green);
+            }
+        }
+        window.draw(points);
+    } 
+}
+
 void DrawShere (sf::RenderWindow& window)
 {
     sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
@@ -138,7 +171,7 @@ int main()
     while (window.isOpen())
     {
         i++;
-        if (i == 2) return 0;
+        // if (i == 2) return 0;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -148,9 +181,10 @@ int main()
 
         CleanWindow (window);
 
-        Test (window);
+        //Test (window);
         //FollowMouse (window);
-        DrawShere (window);
+        //DrawShere (window);
+        DrawShere3D (window);
 
         DisplayWindow(window);
     }
