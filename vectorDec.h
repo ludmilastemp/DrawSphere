@@ -12,12 +12,10 @@ typedef int y_t;
 
 class VectorDec
 {
-private:
+public:
 
     x_t x_ {}; 
     y_t y_ {};
-
-public:
 
     VectorDec (x_t x = 0, y_t y = 0);
     VectorDec (const VectorDec& vDec);
@@ -27,12 +25,6 @@ public:
     VectorDec operator- () const;
     VectorDec operator~ () const; /* перпендикулярный вектор */
     VectorDec operator! () const; /* нормализованный  вектор */ // do not working
-
-    x_t getX () const; 
-    y_t getY () const;
-    
-    void setX (x_t x);
-    void setY (y_t y);
 };
 
 #endif /* STL_vectorDec */

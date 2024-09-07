@@ -65,25 +65,25 @@ Vector Vector::operator! () const
 
 void Vector::updateDec ()
 {
-    dec_.setX (pol_.getLen () * cos(pol_.getPhi ()));
-    dec_.setY (pol_.getLen () * sin(pol_.getPhi ()));
+    dec_.x_ = pol_.len_ * cos(pol_.phi_);
+    dec_.y_ = pol_.len_ * sin(pol_.phi_);
 
     stat_ = ALL;
 }
 
 void Vector::updatePol ()
 {
-    pol_.setLen (sqrt (dec_.getX () * dec_.getX () + dec_.getY () * dec_.getY ()));
+    pol_.len_ = sqrt (dec_.x_ * dec_.x_ + dec_.y_ * dec_.y_);
 
     double phi = 0;
-    if (dec_.getX () == 0)
-        phi = PI / 2 * dec_.getY () / abs(dec_.getY ());
-    else if (dec_.getX () > 0)
-        phi = dec_.getY () / dec_.getX ();
+    if (dec_.x_ == 0)
+        phi = PI / 2 * dec_.y_ / abs(dec_.y_);
+    else if (dec_.x_ > 0)
+        phi = dec_.y_ / dec_.x_;
     else
-        phi = PI + dec_.getY () / dec_.getX ();
+        phi = PI + dec_.y_ / dec_.x_;
 
-    pol_.setPhi (phi);
+    pol_.phi_ = phi;
     
     stat_ = ALL;
 }
@@ -93,25 +93,25 @@ void Vector::updatePol ()
 int Vector::getX ()
 {
     if (stat_== POL) updateDec ();
-    return dec_.getX ();
+    return dec_.x_;
 }
 
 int Vector::getY ()
 {
     if (stat_== POL) updateDec ();
-    return dec_.getY ();
+    return dec_.y_;
 }
 
 int Vector::getLen ()
 {
     if (stat_== DEC) updatePol ();
-    return pol_.getLen ();
+    return pol_.len_;
 }
 
 double Vector::getPhi ()
 {
     if (stat_== DEC) updatePol ();
-    return pol_.getPhi ();
+    return pol_.phi_;
 }
 
 /**************************************************************************/
@@ -119,28 +119,28 @@ double Vector::getPhi ()
 void Vector::setX (int x)
 {
     if (stat_== POL) updateDec ();
-    dec_.setX(x);
+    dec_.x_ = x;
     stat_ = DEC;
 }
 
 void Vector::setY (int y)
 {
     if (stat_== POL) updateDec ();
-    dec_.setY(y);
+    dec_.y_ = y;
     stat_ = DEC;
 }
 
 void Vector::setLen (int len)
 {
     if (stat_ == DEC) updatePol ();
-    pol_.setLen(len);
+    pol_.len_ = len;
     stat_ = POL;
 }
 
 void Vector::setPhi (double phi)
 {
     if (stat_ == DEC) updatePol ();
-    pol_.setPhi(phi);
+    pol_.phi_ = phi;
     stat_ = POL;
 }
 

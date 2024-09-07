@@ -14,7 +14,7 @@ VectorDec::VectorDec (const VectorDec& vDec)
 
 VectorDec VectorDec::operator+ (const VectorDec& v2) const
 {
-    return VectorDec {x_ + v2.getX(), y_ + v2.getY()};
+    return VectorDec {x_ + v2.x_, y_ + v2.y_};
 }
 
 VectorDec VectorDec::operator* (const int mul) const
@@ -35,31 +35,6 @@ VectorDec VectorDec::operator~ () const
 VectorDec VectorDec::operator! () const
 {
     return VectorDec {x_ / abs(x_), y_ / abs(y_)};
-}
-
-
-/**************************************************************************/
-
-x_t VectorDec::getX () const
-{
-    return x_;
-}
-
-y_t VectorDec::getY () const
-{
-    return y_;
-}
-
-/**************************************************************************/
-
-void VectorDec::setX (x_t x)
-{
-    x_ = x;
-}
-
-void VectorDec::setY (y_t y)
-{
-    y_ = y;
 }
 
 /**************************************************************************/

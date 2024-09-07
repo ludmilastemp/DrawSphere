@@ -5,8 +5,9 @@
 // ВЕЗДЕ const&
 
 const int RADIUS = 250;
-const int Lx = 150;
-const int Lz = 0;
+const int Lx = 350;
+const int Ly = 350;
+const int Lz = 350;
 
 void DrawShere3D (sf::RenderWindow& window)
 {
@@ -17,20 +18,30 @@ void DrawShere3D (sf::RenderWindow& window)
         for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
         {
             int r1 = i * i + j * j;
+            int z = sqrt (RADIUS * RADIUS - r1);
+
+            int pLen2 = RADIUS * RADIUS;
+            int pLen  = RADIUS;
+            int dLen2 = (i - Lx) * (i - Lx) + (j - Ly) * (j - Ly) + (z - Lz) * (z - Lz);
+            double dLen = sqrt (dLen2);
+            int lLen2 = Lx * Lx + Ly * Ly + Lz * Lz;
+
             if (r1 <= RADIUS * RADIUS)
             {   
-                Vector L {Lx, Lz};
-                Vector P {i, sqrt(RADIUS * RADIUS - r1)};
-                Vector Pm = -P;
-                Vector diff = L + Pm;
-                phi_t brightnessCoef = P.getPhi() - diff.getPhi();
+                double brightnessCoef = cos ((pLen2 + dLen2 - lLen2) / (2 * pLen * dLen));
 
-                int color = cos(brightnessCoef) * 255;
-                points[j + HEIGHT_WINDOW] = 
-                    sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
-                               sf::Color (color, color, color));
-
-                
+                int color = 0;
+                if (brightnessCoef > 0) 
+                {
+                    color = brightnessCoef * 255;
+                    points[j + HEIGHT_WINDOW] = 
+                        sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                                    sf::Color (color, color, color));
+                }
+                else 
+                    points[j + HEIGHT_WINDOW] = 
+                        sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                                    sf::Color::Red);
             }
             else 
             {
@@ -181,9 +192,9 @@ int main()
 
         CleanWindow (window);
 
-        //Test (window);
-        //FollowMouse (window);
-        //DrawShere (window);
+        // Test (window);
+        // FollowMouse (window);
+        // DrawShere (window);
         DrawShere3D (window);
 
         DisplayWindow(window);
