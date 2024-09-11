@@ -1,7 +1,7 @@
 #ifndef STL_BUTTON
 #define STL_BUTTON
 
-#include "vectorDec.h"
+#include "vectors/vectorDec.h"
 #include <SFML/Graphics.hpp>
 
 enum ButtonPressed

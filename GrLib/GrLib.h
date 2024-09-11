@@ -2,8 +2,8 @@
 #define STL_GrLib
 
 #include <SFML/Graphics.hpp>
-#include "vector.h"
-#include "button.h"
+#include "../vectors/vector.h"
+#include "../button.h"
 
 const int kWidthWindow  = 400;
 const int kHeightWindow = 300;

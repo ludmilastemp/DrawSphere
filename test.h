@@ -1,9 +1,9 @@
 #ifndef STL_TEST
 #define STL_TEST
 
-#include "GrLib.h"
-#include "vector.h"
-#include "vector3D.h"
+#include "GrLib/GrLib.h"
+#include "vectors/vector.h"
+#include "vectors/vector3D.h"
 #include "button.h"
 
 void TestQuick           (sf::RenderWindow& window);
