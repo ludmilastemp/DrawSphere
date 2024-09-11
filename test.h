@@ -1,7 +1,6 @@
 #ifndef STL_TEST
 #define STL_TEST
 
-#include <stdio.h>
 #include "GrLib.h"
 #include "vector.h"
 #include "vector3D.h"

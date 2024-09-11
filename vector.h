@@ -1,17 +1,10 @@
 #ifndef STL_vector
 #define STL_vector
 
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-
 #include "vectorDec.h"
 #include "vectorPol.h"
 
-/// const_cast
-
-////////////////////////////
-enum VectorStatus
+enum VectorStatus //// in  class
 {
     DEC,
     POL,
@@ -32,7 +25,7 @@ private:
 
 public:
 
-    Vector (x_t x, int y);
+    Vector (coord_t x, int y);
     Vector (int len, double phi);
     Vector (const VectorDec& vDec);
     Vector (const VectorPol& vPol);
@@ -46,13 +39,13 @@ public:
     void normalize ();
     void perpendicular ();
 
-    x_t getX (); 
-    y_t getY ();
+    coord_t getX (); 
+    coord_t getY ();
     len_t getLen ();
     phi_t getPhi ();
     
-    void setX (x_t x);
-    void setY (y_t y);
+    void setX (coord_t x);
+    void setY (coord_t y);
     void setLen (len_t len);
     void setPhi (phi_t phi);
     void setStat (VectorStatus stat);

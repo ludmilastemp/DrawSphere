@@ -1,5 +1,9 @@
 #include "vector.h"
 
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+
 /**************************************************************************/
 
 Vector::Vector (int x, int y) 
@@ -82,25 +86,25 @@ void Vector::perpendicular ()
 
 void Vector::updateDec ()
 {
-    dec_.x_ = pol_.len_ * cos(pol_.phi_);
-    dec_.y_ = pol_.len_ * sin(pol_.phi_);
+    dec_.x = pol_.len * cos(pol_.phi);
+    dec_.y = pol_.len * sin(pol_.phi);
 
     stat_ = ALL;
 }
 
 void Vector::updatePol ()
 {
-    pol_.len_ = sqrt (dec_.x_ * dec_.x_ + dec_.y_ * dec_.y_);
+    pol_.len = sqrt (dec_.x * dec_.x + dec_.y * dec_.y);
 
     double phi = 0;
-    if (dec_.x_ == 0)
-        phi = PI / 2 * dec_.y_ / abs(dec_.y_);
-    else if (dec_.x_ > 0)
-        phi = dec_.y_ / dec_.x_;
+    if (dec_.x == 0)
+        phi = M_PI / 2 * dec_.y / abs(dec_.y);
+    else if (dec_.x > 0)
+        phi = dec_.y / dec_.x;
     else
-        phi = PI + dec_.y_ / dec_.x_;
+        phi = M_PI + dec_.y / dec_.x;
 
-    pol_.phi_ = phi;
+    pol_.phi = phi;
     
     stat_ = ALL;
 }
@@ -110,25 +114,25 @@ void Vector::updatePol ()
 int Vector::getX ()
 {
     if (stat_== POL) updateDec ();
-    return dec_.x_;
+    return dec_.x;
 }
 
 int Vector::getY ()
 {
     if (stat_== POL) updateDec ();
-    return dec_.y_;
+    return dec_.y;
 }
 
 int Vector::getLen ()
 {
     if (stat_== DEC) updatePol ();
-    return pol_.len_;
+    return pol_.len;
 }
 
 double Vector::getPhi ()
 {
     if (stat_== DEC) updatePol ();
-    return pol_.phi_;
+    return pol_.phi;
 }
 
 /**************************************************************************/
@@ -136,28 +140,28 @@ double Vector::getPhi ()
 void Vector::setX (int x)
 {
     if (stat_== POL) updateDec ();
-    dec_.x_ = x;
+    dec_.x = x;
     stat_ = DEC;
 }
 
 void Vector::setY (int y)
 {
     if (stat_== POL) updateDec ();
-    dec_.y_ = y;
+    dec_.y = y;
     stat_ = DEC;
 }
 
 void Vector::setLen (int len)
 {
     if (stat_ == DEC) updatePol ();
-    pol_.len_ = len;
+    pol_.len = len;
     stat_ = POL;
 }
 
 void Vector::setPhi (double phi)
 {
     if (stat_ == DEC) updatePol ();
-    pol_.phi_ = phi;
+    pol_.phi = phi;
     stat_ = POL;
 }
 

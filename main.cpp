@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
+
 #include "test.h"
 
 // ВЕЗДЕ const&
@@ -9,9 +10,9 @@ int main()
     printf ("Start\n");
     int i = 0;
 
-    sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW * 2, HEIGHT_WINDOW * 2), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(kWidthWindow * 2, kHeightWindow * 2), "SFML works!");
     sf::Image img;
-    img.create(WIDTH_WINDOW * 2, HEIGHT_WINDOW * 2, sf::Color::Black);
+    img.create(kWidthWindow * 2, kHeightWindow * 2, sf::Color::Black);
 
     while (window.isOpen())
     {

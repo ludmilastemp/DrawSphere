@@ -1,23 +1,16 @@
 #ifndef STL_vectorDec
 #define STL_vectorDec
 
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-
-/// const_cast
-
-typedef int x_t;
-typedef int y_t;
+using coord_t = int;
 
 class VectorDec
 {
 public:
 
-    x_t x_ {}; 
-    y_t y_ {};
+    coord_t x {}; 
+    coord_t y {};
 
-    VectorDec (x_t x = 0, y_t y = 0);
+    VectorDec (coord_t x = 0, coord_t y = 0);
     VectorDec (const VectorDec& vDec);
 
     VectorDec operator+ (const VectorDec& v2) const;

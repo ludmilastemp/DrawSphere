@@ -1,26 +1,17 @@
 #ifndef STL_Vector3D
 #define STL_Vector3D
 
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-
-/// const_cast
-
-// один typefef
-typedef int x_t;
-typedef int y_t;
-typedef int z_t;
+using coord_t = int;
 
 class Vector3D
 {
 public:
 
-    x_t x {}; 
-    y_t y {};
-    z_t z {};
+    coord_t x {}; 
+    coord_t y {};
+    coord_t z {};
 
-    Vector3D (x_t init_x = 0, y_t init_y = 0, z_t init_z = 0);
+    Vector3D (coord_t x = 0, coord_t y = 0, coord_t z = 0);
     // Vector3D (const Vector3D& v3D);
 
     Vector3D operator+ (const Vector3D& v2) const;

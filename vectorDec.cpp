@@ -1,67 +1,71 @@
 #include "vectorDec.h"
 
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+
 /**************************************************************************/
 
-VectorDec::VectorDec (x_t x, y_t y) 
-    : x_(x), y_(y)
+VectorDec::VectorDec (coord_t x_init, coord_t y_init) 
+    : x(x_init), y(y_init)
 {}
 
 VectorDec::VectorDec (const VectorDec& vDec) 
-    : x_(vDec.x_), y_(vDec.y_)
+    : x(vDec.x), y(vDec.y)
 {}
 
 /**************************************************************************/
 
 VectorDec VectorDec::operator+ (const VectorDec& v2) const
 {
-    return VectorDec {x_ + v2.x_, y_ + v2.y_};
+    return VectorDec {x + v2.x, y + v2.y};
 }
 
 VectorDec VectorDec::operator- (const VectorDec& v2) const
 {
-    return VectorDec {x_ - v2.x_, y_ - v2.y_};
+    return VectorDec {x - v2.x, y - v2.y};
 }
 
 VectorDec VectorDec::operator* (const int mul) const
 {
-    return VectorDec {x_ * mul, y_ * mul};
+    return VectorDec {x * mul, y * mul};
 }
 
 VectorDec VectorDec::operator/ (const int mul) const
 {
-    return VectorDec {x_ / mul, y_ / mul};
+    return VectorDec {x / mul, y / mul};
 }
 
 VectorDec VectorDec::operator- () const
 {
-    return VectorDec {-x_, -y_};
+    return VectorDec {-x, -y};
 }
 
 /**************************************************************************/
 
 void VectorDec::normalize ()
 {
-    x_ /= abs(x_);
-    y_ /= abs(y_);
+    x /= abs(x);
+    y /= abs(y);
 }
 
 void VectorDec::perpendicular ()
 {
-    x_t x = x_;
-    x_ = y_;
-    y_ = -x;
+    coord_t tmp = x;
+    x = y;
+    y = -tmp;
 }
 
 /**************************************************************************/
 
 VectorDec NormalizeVector (const VectorDec& v) 
 {
-    return VectorDec {v.x_ / abs(v.x_), v.y_ / abs(v.y_)};
+    return VectorDec {v.x / abs(v.x), v.y / abs(v.y)};
 }
 
 VectorDec PerpendicularVector (const VectorDec& v) 
 {
-    return VectorDec {v.y_, -v.x_};
+    return VectorDec {v.y, -v.x};
 }
 
 /**************************************************************************/

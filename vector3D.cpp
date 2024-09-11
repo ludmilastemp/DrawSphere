@@ -1,8 +1,12 @@
 #include "vector3D.h"
 
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+
 /**************************************************************************/
 
-Vector3D::Vector3D (x_t init_x, y_t init_y, z_t init_z) 
+Vector3D::Vector3D (coord_t init_x, coord_t init_y, coord_t init_z) 
     : x(init_x), y(init_y), z(init_z)
 {}
 

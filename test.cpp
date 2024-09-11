@@ -1,16 +1,19 @@
 #include "test.h"
 
+#include <stdio.h>
+#include <math.h>
+
 const int kRadius = 250;
 const Vector3D kViewer = {0, 0, 500};
 const int kSpeedButtonControl = 50;
 
 void DrawShere3D (const Vector3D& light, sf::RenderWindow& window)
 {
-    sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
+    sf::VertexArray points(sf::Points, kHeightWindow * 2);
 
-    for (int i = -WIDTH_WINDOW; i < WIDTH_WINDOW; i++)
+    for (int i = -kWidthWindow; i < kWidthWindow; i++)
     {
-        for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
+        for (int j = -kHeightWindow; j < kHeightWindow; j++)
         {
             int r1 = i * i + j * j;
             int z = sqrt (kRadius * kRadius - r1);
@@ -44,8 +47,8 @@ void DrawShere3D (const Vector3D& light, sf::RenderWindow& window)
                 }
 
             
-                points[j + HEIGHT_WINDOW] = 
-                    sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                points[j + kHeightWindow] = 
+                    sf::Vertex(sf::Vector2f(i + kWidthWindow, j + kHeightWindow), 
                                 sf::Color (color, color, color));
             }
         }
@@ -99,7 +102,7 @@ void PrintCyrcle (sf::RenderWindow& window)
 {
     Vector v {250, 0.0};
 
-    for (double i = 0; i > -PI * 2; i -= 0.01)
+    for (double i = 0; i > -M_PI * 2; i -= 0.01)
     {
         v.setPhi(i);
 
@@ -182,7 +185,7 @@ void FollowMouseVector (sf::RenderWindow& window)
         CleanWindow (window);
 
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        Vector v {pos.x - WIDTH_WINDOW, -pos.y + HEIGHT_WINDOW};
+        Vector v {pos.x - kWidthWindow, -pos.y + kHeightWindow};
         DrawVector (v, window);
 
         DisplayWindow(window);
@@ -196,7 +199,7 @@ void FollowMouseShrere (sf::RenderWindow& window)
         CleanWindow (window);
 
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        Vector3D light {pos.x - WIDTH_WINDOW, pos.y - HEIGHT_WINDOW, 450};
+        Vector3D light {pos.x - kWidthWindow, pos.y - kHeightWindow, 450};
 
         DrawShere3D (light, window);
 
@@ -204,36 +207,11 @@ void FollowMouseShrere (sf::RenderWindow& window)
     }
 }
 
-bool IsButtonPressed (const sf::Vector2i& pos, const Button& button)
-{
-    return 
-        button.corner.x_ <= pos.x && 
-                            pos.x <= button.corner.x_ + button.size.x_ &&
-        button.corner.y_ <= pos.y && 
-                            pos.y <= button.corner.y_ + button.size.y_;
-
-}
-
-ButtonPressed ComputeButtonPressed (const sf::Vector2i& pos)
-{
-    if (IsButtonPressed (pos, kButtonOffOn))
-        return offOn;
-    if (IsButtonPressed (pos, kButtonUp))
-        return up;
-    if (IsButtonPressed (pos, kButtonDown))
-        return down;
-    if (IsButtonPressed (pos, kButtonLeft))
-        return left;
-    if (IsButtonPressed (pos, kButtonRight))
-        return right;
-    return offOn;
-}
-
 void ButtonControlShrere (sf::RenderWindow& window)
 {
     bool draw = false;
 
-    Vector3D light {WIDTH_WINDOW, HEIGHT_WINDOW, 450};
+    Vector3D light {kWidthWindow, kHeightWindow, 450};
     const Vector3D shiftUp    {0, -kSpeedButtonControl, 0};
     const Vector3D shiftDown  {0,  kSpeedButtonControl, 0};
     const Vector3D shiftLeft  {-kSpeedButtonControl, 0, 0};
