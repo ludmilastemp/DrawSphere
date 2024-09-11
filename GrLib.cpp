@@ -34,6 +34,16 @@ void DrawLine (Vector& v, Vector n, sf::RenderWindow& window)
     window.draw(line, 100, sf::Lines);
 }
 
+void DrawButton (const Button& button, sf::RenderWindow& window)
+{
+    sf::RectangleShape rectangle;
+    rectangle.setSize(sf::Vector2f(button.size.x_, button.size.y_));
+    rectangle.setOutlineColor(sf::Color::Green);
+    // rectangle.setOutlineThickness(5);
+    rectangle.setPosition(button.corner.x_, button.corner.y_);
+    window.draw(rectangle);
+}
+
 void DisplayWindow (sf::RenderWindow& window)
 {  
     window.display();
@@ -54,6 +64,8 @@ void CleanWindow (sf::RenderWindow& window)
     // };
 
     window.clear();
+
+    // window.display();
 
     // window.draw(line1, 100, sf::Lines);
     // window.draw(line2, 100, sf::Lines);

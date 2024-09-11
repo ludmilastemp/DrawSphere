@@ -6,9 +6,9 @@ Vector3D::Vector3D (x_t init_x, y_t init_y, z_t init_z)
     : x(init_x), y(init_y), z(init_z)
 {}
 
-Vector3D::Vector3D (const Vector3D& v3D) 
-    : x(v3D.x), y(v3D.y), z(v3D.z)
-{}
+// Vector3D::Vector3D (const Vector3D& v3D) 
+//     : x(v3D.x), y(v3D.y), z(v3D.z)
+// {}
 
 /**************************************************************************/
 

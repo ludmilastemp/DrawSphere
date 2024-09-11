@@ -21,7 +21,7 @@ public:
     z_t z {};
 
     Vector3D (x_t init_x = 0, y_t init_y = 0, z_t init_z = 0);
-    Vector3D (const Vector3D& v3D);
+    // Vector3D (const Vector3D& v3D);
 
     Vector3D operator+ (const Vector3D& v2) const;
     Vector3D operator- (const Vector3D& v2) const;
