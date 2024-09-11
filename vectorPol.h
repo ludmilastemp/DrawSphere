@@ -21,10 +21,17 @@ public:
     VectorPol (const VectorPol& vPol);
 
     VectorPol operator+ (const VectorPol& v2) const;
-    VectorPol operator* (const int mul) const;
+    VectorPol operator- (const VectorPol& v2) const;
     VectorPol operator- () const;
-    VectorPol operator~ () const; /* перпендикулярный вектор */
-    VectorPol operator! () const; /* нормализованный  вектор */ 
+    VectorPol operator* (const int mul) const;
+    VectorPol operator/ (const int mul) const;
+
+    void normalize ();
+    void perpendicular ();
 };
+
+VectorPol NormalizeVector     (const VectorPol& v);
+VectorPol PerpendicularVector (const VectorPol& v);
+
 
 #endif /* STL_vectorPol */

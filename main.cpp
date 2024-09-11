@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include "GrLib.h"
 #include "vector.h"
+#include "vector3D.h"
 
 // ВЕЗДЕ const&
 
 const int RADIUS = 250;
-const int Lx = 350;
-const int Ly = 350;
-const int Lz = 350;
+const Vector3D VIEWER = {0, 0, 500};
 
-void DrawShere3D (sf::RenderWindow& window)
+void DrawShere3D (const Vector3D& light, sf::RenderWindow& window)
 {
     sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
 
@@ -20,72 +19,87 @@ void DrawShere3D (sf::RenderWindow& window)
             int r1 = i * i + j * j;
             int z = sqrt (RADIUS * RADIUS - r1);
 
-            int pLen2 = RADIUS * RADIUS;
-            int pLen  = RADIUS;
-            int dLen2 = (i - Lx) * (i - Lx) + (j - Ly) * (j - Ly) + (z - Lz) * (z - Lz);
-            double dLen = sqrt (dLen2);
-            int lLen2 = Lx * Lx + Ly * Ly + Lz * Lz;
+            Vector3D point {i, j, z};
 
             if (r1 <= RADIUS * RADIUS)
             {   
-                double brightnessCoef = cos ((pLen2 + dLen2 - lLen2) / (2 * pLen * dLen));
+                double brightnessCoef = CalculateCosAngle (point, light - point);
+                double glareCoef      = 
+                    cos (acos(CalculateCosAngle (point, VIEWER - point)) -
+                         acos(CalculateCosAngle (point, light  - point)));
+
+                // double glareCoefPow = pow (glareCoef, 30);
 
                 int color = 0;
-                if (brightnessCoef > 0) 
+                if (brightnessCoef > 0)
                 {
-                    color = brightnessCoef * 255;
-                    points[j + HEIGHT_WINDOW] = 
-                        sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
-                                    sf::Color (color, color, color));
+                    // if (glareCoef > 0)
+                    // {
+                    //     if (glareCoef < brightnessCoef)
+                    //     if (glareCoefPow < brightnessCoef)
+                    //     {
+                    //        color = glareCoef * 250;
+                    //        color = glareCoefPow * 255;
+                    //     }
+                    // }
+                    // {
+                        color = brightnessCoef * 255;
+                    // }
                 }
-                else 
-                    points[j + HEIGHT_WINDOW] = 
-                        sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
-                                    sf::Color::Red);
-            }
-            else 
-            {
-                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Green);
-            }
-        }
-        window.draw(points);
-    } 
-}
 
-void DrawShere (sf::RenderWindow& window)
-{
-    sf::VertexArray points(sf::Points, HEIGHT_WINDOW * 2);
-
-    for (int i = -WIDTH_WINDOW; i < WIDTH_WINDOW; i++)
-    {
-        for (int j = -HEIGHT_WINDOW; j < HEIGHT_WINDOW; j++)
-        {
-            int r1 = i * i + j * j;
-            if (r1 <= RADIUS * RADIUS)
-            {
-                int color = 1.0 * (RADIUS * RADIUS - r1) / (RADIUS * RADIUS) * 255;
+            
                 points[j + HEIGHT_WINDOW] = 
                     sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
-                               sf::Color (color, color, color));
+                                sf::Color (color, color, color));
             }
             else 
             {
-                points[j + HEIGHT_WINDOW] = sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), sf::Color::Green);
+                points[j + HEIGHT_WINDOW] = 
+                    sf::Vertex(sf::Vector2f(i + WIDTH_WINDOW, j + HEIGHT_WINDOW), 
+                               sf::Color::Black);
             }
         }
         window.draw(points);
     } 
 }
 
-void FollowMouse (sf::RenderWindow& window)
+void TestShere3D (sf::RenderWindow& window)
 {
-    while (true)
+    Vector3D light {-350, -350, 450};
+    int temp = 50;
+
+    for (; light.x < 350; light.x += temp)
     {
         CleanWindow (window);
 
-        sf::Vector2i pos = sf::Mouse::getPosition(window);
-        Vector v {pos.x - WIDTH_WINDOW, -pos.y + HEIGHT_WINDOW};
-        DrawVector (v, window);
+        DrawShere3D (light, window);
+
+        DisplayWindow(window);
+    }
+
+    for (; light.y < 350; light.y += temp)
+    {
+        CleanWindow (window);
+
+        DrawShere3D (light, window);
+
+        DisplayWindow(window);
+    }
+
+    for (; light.x >- 350; light.x -= temp)
+    {
+        CleanWindow (window);
+
+        DrawShere3D (light, window);
+
+        DisplayWindow(window);
+    }
+
+    for (; light.y >- 350; light.y -= temp)
+    {
+        CleanWindow (window);
+
+        DrawShere3D (light, window);
 
         DisplayWindow(window);
     }
@@ -167,7 +181,37 @@ void Test (sf::RenderWindow& window)
     PrintCyrcle (window);
     PrintCyrcle (window);
     PrintCyrcle (window);
-    PrintRect (window);
+    PrintRect   (window);
+    TestShere3D (window);
+}
+
+void FollowMouseVector (sf::RenderWindow& window)
+{
+    while (true)
+    {
+        CleanWindow (window);
+
+        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        Vector v {pos.x - WIDTH_WINDOW, -pos.y + HEIGHT_WINDOW};
+        DrawVector (v, window);
+
+        DisplayWindow(window);
+    }
+}
+
+void FollowMouseShrere (sf::RenderWindow& window)
+{
+    while (true)
+    {
+        CleanWindow (window);
+
+        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        Vector3D light {pos.x - WIDTH_WINDOW, pos.y - HEIGHT_WINDOW, 450};
+
+        DrawShere3D (light, window);
+
+        DisplayWindow(window);
+    }
 }
 
 int main()
@@ -182,7 +226,7 @@ int main()
     while (window.isOpen())
     {
         i++;
-        // if (i == 2) return 0;
+        if (i == 2) return 0;
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -192,10 +236,9 @@ int main()
 
         CleanWindow (window);
 
-        // Test (window);
-        // FollowMouse (window);
-        // DrawShere (window);
-        DrawShere3D (window);
+        Test (window);
+        // FollowMouseVector (window);
+        // FollowMouseShrere (window);
 
         DisplayWindow(window);
     }

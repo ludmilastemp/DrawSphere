@@ -17,9 +17,19 @@ VectorDec VectorDec::operator+ (const VectorDec& v2) const
     return VectorDec {x_ + v2.x_, y_ + v2.y_};
 }
 
+VectorDec VectorDec::operator- (const VectorDec& v2) const
+{
+    return VectorDec {x_ - v2.x_, y_ - v2.y_};
+}
+
 VectorDec VectorDec::operator* (const int mul) const
 {
     return VectorDec {x_ * mul, y_ * mul};
+}
+
+VectorDec VectorDec::operator/ (const int mul) const
+{
+    return VectorDec {x_ / mul, y_ / mul};
 }
 
 VectorDec VectorDec::operator- () const
@@ -27,14 +37,31 @@ VectorDec VectorDec::operator- () const
     return VectorDec {-x_, -y_};
 }
 
-VectorDec VectorDec::operator~ () const
+/**************************************************************************/
+
+void VectorDec::normalize ()
 {
-    return VectorDec {y_, -x_};
+    x_ /= abs(x_);
+    y_ /= abs(y_);
 }
 
-VectorDec VectorDec::operator! () const
+void VectorDec::perpendicular ()
 {
-    return VectorDec {x_ / abs(x_), y_ / abs(y_)};
+    x_t x = x_;
+    x_ = y_;
+    y_ = -x;
+}
+
+/**************************************************************************/
+
+VectorDec NormalizeVector (const VectorDec& v) 
+{
+    return VectorDec {v.x_ / abs(v.x_), v.y_ / abs(v.y_)};
+}
+
+VectorDec PerpendicularVector (const VectorDec& v) 
+{
+    return VectorDec {v.y_, -v.x_};
 }
 
 /**************************************************************************/

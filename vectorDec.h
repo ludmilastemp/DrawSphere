@@ -21,10 +21,16 @@ public:
     VectorDec (const VectorDec& vDec);
 
     VectorDec operator+ (const VectorDec& v2) const;
-    VectorDec operator* (const int mul) const;
+    VectorDec operator- (const VectorDec& v2) const;
     VectorDec operator- () const;
-    VectorDec operator~ () const; /* перпендикулярный вектор */
-    VectorDec operator! () const; /* нормализованный  вектор */ // do not working
+    VectorDec operator* (const int mul) const;
+    VectorDec operator/ (const int mul) const;
+
+    void normalize ();
+    void perpendicular ();
 };
+
+VectorDec NormalizeVector     (const VectorDec& v);
+VectorDec PerpendicularVector (const VectorDec& v);
 
 #endif /* STL_vectorDec */

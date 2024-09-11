@@ -10,16 +10,17 @@
 
 /// const_cast
 
+////////////////////////////
+enum VectorStatus
+{
+    DEC,
+    POL,
+    ALL,
+};
+
 class Vector
 {
 private:
-
-    enum VectorStatus
-    {
-        DEC,
-        POL,
-        ALL,
-    };
 
     VectorDec dec_ {};
     VectorPol pol_ {};
@@ -36,24 +37,29 @@ public:
     Vector (const VectorDec& vDec);
     Vector (const VectorPol& vPol);
 
-    // Vector (int len, double a);
-
     Vector operator+ (const Vector& v2) const;
-    Vector operator* (const int mul) const;
+    Vector operator- (const Vector& v2) const;
     Vector operator- () const;
-    Vector operator~ () const; /* перпендикулярный вектор */
-    Vector operator! () const; /* нормализованный  вектор */ 
+    Vector operator* (const int mul) const;
+    Vector operator/ (const int mul) const;
+
+    void normalize ();
+    void perpendicular ();
 
     x_t getX (); 
-    int getY ();
-    int getLen ();
-    double getPhi ();
+    y_t getY ();
+    len_t getLen ();
+    phi_t getPhi ();
     
     void setX (x_t x);
-    void setY (int y);
-    void setLen (int len);
-    void setPhi (double phi);
+    void setY (y_t y);
+    void setLen (len_t len);
+    void setPhi (phi_t phi);
     void setStat (VectorStatus stat);
+
+    friend Vector NormalizeVector     (const Vector& v); /////////////////////////
+    friend Vector PerpendicularVector (const Vector& v); /////////////////////////
 };
+
 
 #endif /* STL_vector */

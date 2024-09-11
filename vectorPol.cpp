@@ -14,8 +14,12 @@ VectorPol::VectorPol (const VectorPol& vPol)
 
 VectorPol VectorPol::operator+ (const VectorPol& v2) const
 {
-    assert (0);
-    return v2;
+    assert (0); return v2;
+}
+
+VectorPol VectorPol::operator- (const VectorPol& v2) const
+{
+    assert (0); return v2;
 }
 
 VectorPol VectorPol::operator* (const int mul) const
@@ -23,19 +27,38 @@ VectorPol VectorPol::operator* (const int mul) const
     return VectorPol {len_ * mul, phi_};
 }
 
+VectorPol VectorPol::operator/ (const int mul) const
+{
+    return VectorPol {len_ / mul, phi_};
+}
+
 VectorPol VectorPol::operator- () const
 {
     return VectorPol {len_, phi_ + PI};
 }
 
-VectorPol VectorPol::operator~ () const
+/**************************************************************************/
+
+void VectorPol::normalize ()
 {
-    return VectorPol {len_, phi_ + PI / 2};
+    len_ = 1;
 }
 
-VectorPol VectorPol::operator! () const
+void VectorPol::perpendicular ()
 {
-    return VectorPol {1, phi_};
+    phi_ = phi_ + PI / 2;
+}
+
+/**************************************************************************/
+
+VectorPol NormalizeVector (const VectorPol& v) 
+{
+    return VectorPol {1, v.phi_};
+}
+
+VectorPol PerpendicularVector (const VectorPol& v) 
+{
+    return VectorPol {v.len_, v.phi_ + PI / 2};
 }
 
 /**************************************************************************/

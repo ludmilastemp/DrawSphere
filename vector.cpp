@@ -28,12 +28,28 @@ Vector Vector::operator+ (const Vector& v2) const
         return Vector {pol_ + v2.pol_};
 }
 
+Vector Vector::operator- (const Vector& v2) const
+{
+    if (stat_ == DEC) 
+        return Vector {dec_ - v2.dec_};
+    else
+        return Vector {pol_ - v2.pol_};
+}
+
 Vector Vector::operator* (const int mul) const
 {
     if (stat_ == DEC) 
         return dec_ * mul;
     else
         return pol_ * mul;
+}
+
+Vector Vector::operator/ (const int mul) const
+{
+    if (stat_ == DEC) 
+        return dec_ / mul;
+    else
+        return pol_ / mul;
 }
 
 Vector Vector::operator- () const
@@ -44,22 +60,23 @@ Vector Vector::operator- () const
         return -pol_;
 }
 
-Vector Vector::operator~ () const
-{
-    if (stat_ == DEC) 
-        return ~dec_;
-    else   
-        return ~pol_;
-}
+/**************************************************************************/
 
-Vector Vector::operator! () const
+void Vector::normalize ()
 {
     if (stat_ == DEC) 
-        return !dec_;
+        return dec_.normalize();
     else
-        return !pol_;
+        return pol_.normalize();
 }
 
+void Vector::perpendicular ()
+{
+    if (stat_ == DEC) 
+        return dec_.perpendicular();
+    else   
+        return pol_.perpendicular();
+}
 
 /**************************************************************************/
 
@@ -142,6 +159,24 @@ void Vector::setPhi (double phi)
     if (stat_ == DEC) updatePol ();
     pol_.phi_ = phi;
     stat_ = POL;
+}
+
+/**************************************************************************/
+
+Vector NormalizeVector (const Vector& v) 
+{
+    if (v.stat_ == DEC) 
+        return NormalizeVector (v.dec_);
+    else
+        return NormalizeVector (v.pol_);
+}
+
+Vector PerpendicularVector (const Vector& v) 
+{
+    if (v.stat_ == DEC) 
+        return PerpendicularVector (v.dec_);
+    else   
+        return PerpendicularVector (v.pol_);
 }
 
 /**************************************************************************/
