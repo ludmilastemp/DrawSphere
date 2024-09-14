@@ -25,7 +25,7 @@ private:
 
 public:
 
-    Vector (coord_t x, int y);
+    Vector (coord_t x, coord_t y);
     Vector (int len, double phi);
     Vector (const VectorDec& vDec);
     Vector (const VectorPol& vPol);

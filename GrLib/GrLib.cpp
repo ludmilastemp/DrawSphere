@@ -3,9 +3,18 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void DrawLine (Vector& v, Vector n, sf::RenderWindow& window);
+GraphicsCtx::GraphicsCtx ()
+    :window(sf::VideoMode(kWidthWindow * 2, kHeightWindow * 2), "SFML works!")
+{
+    sf::Image img;
+    img.create(kWidthWindow * 2, kHeightWindow * 2, sf::Color::Black);
+}
 
-void DrawVector (Vector& v, sf::RenderWindow& window)
+/**************************************************************************/
+
+void DrawLine (Vector& v, Vector n, GraphicsCtx& ctx);
+
+void DrawVector (Vector& v, GraphicsCtx& ctx)
 {
     // Vector vSmall {v.getX(), v.getY()};
     // vSmall = !vSmall;
@@ -18,12 +27,12 @@ void DrawVector (Vector& v, sf::RenderWindow& window)
     Vector left  = -vSmall + PerpendicularVector (vSmall);
     Vector right = -vSmall - PerpendicularVector (vSmall);
 
-    DrawLine (v, Vector {0, 0}, window);
-    DrawLine (left,  v, window);
-    DrawLine (right, v, window);
+    DrawLine (v, Vector {0, 0}, ctx);
+    DrawLine (left,  v, ctx);
+    DrawLine (right, v, ctx);
 }
 
-void DrawLine (Vector& v, Vector n, sf::RenderWindow& window)
+void DrawLine (Vector& v, Vector n, GraphicsCtx& ctx)
 {
     sf::Vertex line[] =
     {
@@ -31,25 +40,41 @@ void DrawLine (Vector& v, Vector n, sf::RenderWindow& window)
         sf::Vertex(sf::Vector2f(kWidthWindow + n.getX() + v.getX(), kHeightWindow - n.getY() - v.getY()))
     };
 
-    window.draw(line, 100, sf::Lines);
+    ctx.window.draw(line, 100, sf::Lines);
 }
 
-void DrawButton (const Button& button, sf::RenderWindow& window)
+void DrawButton (const Button& button, GraphicsCtx& ctx)
 {
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(button.size.x, button.size.y));
     rectangle.setOutlineColor(sf::Color::Green);
     // rectangle.setOutlineThickness(5);
     rectangle.setPosition(button.corner.x, button.corner.y);
-    window.draw(rectangle);
+    ctx.window.draw(rectangle);
 }
 
-void DisplayWindow (sf::RenderWindow& window)
+bool IsWindowOpen (GraphicsCtx& ctx)
+{
+    return ctx.window.isOpen();
+}
+
+void CheckEventCloseWindow (GraphicsCtx& ctx)
+{
+
+        sf::Event event;
+        while (ctx.window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                ctx.window.close();
+        }
+}
+
+void DisplayWindow (GraphicsCtx& ctx)
 {  
-    window.display();
+    ctx.window.display();
 }
 
-void CleanWindow (sf::RenderWindow& window)
+void CleanWindow (GraphicsCtx& ctx)
 {
     // sf::Vertex line1[] =
     // {
@@ -63,7 +88,7 @@ void CleanWindow (sf::RenderWindow& window)
     //     sf::Vertex(sf::Vector2f(800, kHeightWindow))
     // };
 
-    window.clear();
+    ctx.window.clear();
 
     // window.display();
 

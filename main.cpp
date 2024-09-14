@@ -4,36 +4,30 @@
 #include "test.h"
 
 // ВЕЗДЕ const&
-
+// sphere
 int main()
 {
     printf ("Start\n");
     int i = 0;
 
-    sf::RenderWindow window(sf::VideoMode(kWidthWindow * 2, kHeightWindow * 2), "SFML works!");
-    sf::Image img;
-    img.create(kWidthWindow * 2, kHeightWindow * 2, sf::Color::Black);
+    GraphicsCtx ctx {};
 
-    while (window.isOpen())
+    while (IsWindowOpen(ctx))
     {
         i++;
         if (i == 2) return 0;
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
 
-        CleanWindow (window);
+        CheckEventCloseWindow (ctx);
+        CleanWindow (ctx);
 
-        TestQuick (window);
-        // FollowMouseVector (window);
-        // FollowMouseShrere (window);
-        // ButtonControlShrere (window);
+        TestQuick (ctx);
+        // FollowMouseVector (ctx);
+        // FollowMouseSphere (ctx);
+        // ButtonControlSphere (ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
     return 0;
 }
+

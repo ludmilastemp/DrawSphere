@@ -4,6 +4,7 @@ a.out:
 		vectors/vectorDec.cpp 	\
 		vectors/vectorPol.cpp 	\
 		vectors/vector3D.cpp 	\
+		vectors/color.cpp 	    \
 		GrLib/GrLib.cpp   	    \
 		test.cpp    	        \
 		button.cpp              \

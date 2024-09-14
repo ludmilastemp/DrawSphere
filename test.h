@@ -6,9 +6,9 @@
 #include "vectors/vector3D.h"
 #include "button.h"
 
-void TestQuick           (sf::RenderWindow& window);
-void FollowMouseVector   (sf::RenderWindow& window);
-void FollowMouseShrere   (sf::RenderWindow& window);
-void ButtonControlShrere (sf::RenderWindow& window);
+void TestQuick           (GraphicsCtx& ctx);
+void FollowMouseVector   (GraphicsCtx& ctx);
+void FollowMouseShrere   (GraphicsCtx& ctx);
+void ButtonControlShrere (GraphicsCtx& ctx);
 
 #endif /* STL_TEST */

@@ -1,13 +1,44 @@
 #include "test.h"
 
-#include <stdio.h>
-#include <math.h>
+#include <stdio.h>  //
+#include <math.h>   //
+#include <assert.h> //
+
+double MAGIC = 0.02;
 
 const int kRadius = 250;
-const Vector3D kViewer = {0, 0, 500};
+const int kLightCircleSize = 7; // от 1 до 10
+const int kLightZ = 1000;
+const int kLightIntervalTest  = 1500;
+const int kSpeedSphereTest    = 250;
 const int kSpeedButtonControl = 50;
 
-void DrawShere3D (const Vector3D& light, sf::RenderWindow& window)
+const Vector3D kViewer  = {0, 0, 300};
+
+const Color kLightColor = {0, 1, 1};
+const Color kMaterColor = {0, 1, 1};
+const Color kAmbieColor = {0, 0.05, 0.05};
+
+Color IdentifySourceColor (const Vector3D& point, const Vector3D& light)
+{
+    double diffuseCoef = CalculateCosAngle (point, light - point);
+    Vector3D otr       = ReflectVector     (light - point, point);
+    double glareCoef   = CalculateCosAngle (otr, kViewer - point);
+
+    if (diffuseCoef < 0) diffuseCoef = 0;
+    if (glareCoef < 0)   glareCoef = 0;
+
+    glareCoef   = pow (glareCoef, 15);
+    diffuseCoef = pow (diffuseCoef, 11 - kLightCircleSize);
+
+    Color color = kMaterColor * kAmbieColor                         + 
+                  kMaterColor * kLightColor * (MAGIC + diffuseCoef) + 
+                                kLightColor * glareCoef;
+
+    return color;
+}
+
+void DrawSphere3D (const Vector3D& light, GraphicsCtx& ctx)
 {
     sf::VertexArray points(sf::Points, kHeightWindow * 2);
 
@@ -16,89 +47,72 @@ void DrawShere3D (const Vector3D& light, sf::RenderWindow& window)
         for (int j = -kHeightWindow; j < kHeightWindow; j++)
         {
             int r1 = i * i + j * j;
-            int z = sqrt (kRadius * kRadius - r1);
+            double z = sqrt (kRadius * kRadius - r1);
 
             Vector3D point {i, j, z};
 
             if (r1 <= kRadius * kRadius)
             {   
-                double brightnessCoef = CalculateCosAngle (point, light - point);
-                // double glareCoef      = 
-                //     cos (acos(CalculateCosAngle (point, kViewer - point)) -
-                //          acos(CalculateCosAngle (point, light  - point)));
+                Color lightSource1 = IdentifySourceColor (point, light);
+                Color lightSource2 = IdentifySourceColor (point, {300, -400, 800});
 
-                // double glareCoefPow = pow (glareCoef, 30);
+                Color color = lightSource1 + lightSource2;
 
-                int color = 0;
-                if (brightnessCoef > 0)
-                {
-                    // if (glareCoef > 0)
-                    // {
-                    //     if (glareCoef < brightnessCoef)
-                    //     if (glareCoefPow < brightnessCoef)
-                    //     {
-                    //        color = glareCoef * 250;
-                    //        color = glareCoefPow * 255;
-                    //     }
-                    // }
-                    // {
-                        color = brightnessCoef * 255;
-                    // }
-                }
+                color.clamp();
+                color = color * 255;
 
-            
                 points[j + kHeightWindow] = 
                     sf::Vertex(sf::Vector2f(i + kWidthWindow, j + kHeightWindow), 
-                                sf::Color (color, color, color));
+                                sf::Color (color.r, color.g, color.b));
             }
         }
-        window.draw(points);
+        ctx.window.draw(points);
     } 
 }
 
-void TestShere3D (sf::RenderWindow& window)
+void TestSphere3D (GraphicsCtx& ctx)
 {
-    Vector3D light {-350, -350, 450};
-    int temp = 50;
+    Vector3D light {-kLightIntervalTest, -kLightIntervalTest, kLightZ};
+    int temp = kSpeedSphereTest;
 
-    for (; light.x < 350; light.x += temp)
+    for (; light.x < kLightIntervalTest; light.x += temp)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawShere3D (light, window);
+        DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
-    for (; light.y < 350; light.y += temp)
+    for (; light.y < kLightIntervalTest; light.y += temp)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawShere3D (light, window);
+        DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
-    for (; light.x >- 350; light.x -= temp)
+    for (; light.x >- kLightIntervalTest; light.x -= temp)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawShere3D (light, window);
+        DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
-    for (; light.y >- 350; light.y -= temp)
+    for (; light.y >- kLightIntervalTest; light.y -= temp)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawShere3D (light, window);
+        DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
 
-void PrintCyrcle (sf::RenderWindow& window)
+void PrintCyrcle (GraphicsCtx& ctx)
 {
     Vector v {250, 0.0};
 
@@ -106,15 +120,15 @@ void PrintCyrcle (sf::RenderWindow& window)
     {
         v.setPhi(i);
 
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
 
-void PrintRect (sf::RenderWindow& window)
+void PrintRect (GraphicsCtx& ctx)
 {
     Vector v {-350, 250};
 
@@ -122,96 +136,91 @@ void PrintRect (sf::RenderWindow& window)
     {
         v.setX(i);
 
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
     for (int i = 250; i > -250; i--)
     {
         v.setY(i);
 
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
     for (int i = 350; i > -350; i--)
     {
         v.setX(i);
 
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 
     for (int i = -250; i < 250; i++)
     {
         v.setY(i);
 
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
 
-void TestQuick (sf::RenderWindow& window)
+void TestQuick (GraphicsCtx& ctx)
 {
-    // Vector v1 {50, 50};
-    // Vector v2 {100, 10};
-
-    // Vector v3 = SumVector (v1, v2);
-    // Vector v4 = PerVector (v1);
-
-    PrintCyrcle (window);
-    PrintCyrcle (window);
-    PrintCyrcle (window);
-    PrintRect   (window);
-    TestShere3D (window);
+    // PrintCyrcle (ctx);
+    // PrintCyrcle (ctx);
+    // PrintCyrcle (ctx);
+    // PrintRect   (ctx);
+    // for (; MAGIC < 0.3; MAGIC += 0.03)
+    TestSphere3D (ctx);
 }
 
-void FollowMouseVector (sf::RenderWindow& window)
+void FollowMouseVector (GraphicsCtx& ctx)
 {
     while (true)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
         Vector v {pos.x - kWidthWindow, -pos.y + kHeightWindow};
-        DrawVector (v, window);
+        DrawVector (v, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
 
-void FollowMouseShrere (sf::RenderWindow& window)
+void FollowMouseSphere (GraphicsCtx& ctx)
 {
     while (true)
     {
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        sf::Vector2i pos = sf::Mouse::getPosition(window);
-        Vector3D light {pos.x - kWidthWindow, pos.y - kHeightWindow, 450};
+        sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
+        Vector3D light {pos.x - kWidthWindow, pos.y - kHeightWindow, kLightZ};
 
-        DrawShere3D (light, window);
+        DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
 
-void ButtonControlShrere (sf::RenderWindow& window)
+void ButtonControlSphere (GraphicsCtx& ctx)
 {
     bool draw = false;
 
-    Vector3D light {kWidthWindow, kHeightWindow, 450};
+    Vector3D light {kWidthWindow, kHeightWindow, kLightZ};
     const Vector3D shiftUp    {0, -kSpeedButtonControl, 0};
     const Vector3D shiftDown  {0,  kSpeedButtonControl, 0};
     const Vector3D shiftLeft  {-kSpeedButtonControl, 0, 0};
@@ -220,14 +229,14 @@ void ButtonControlShrere (sf::RenderWindow& window)
     while (true)
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (ctx.window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 return;
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 
-                    sf::Vector2i pos = sf::Mouse::getPosition(window);
+                    sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
                     if (IsButtonPressed (pos, kButtonOffOn))
                     {
                         if (draw) draw = false; else draw = true;
@@ -244,16 +253,16 @@ void ButtonControlShrere (sf::RenderWindow& window)
             }
         }
         
-        CleanWindow (window);
+        CleanWindow (ctx);
 
-        DrawButton (kButtonOffOn, window);
-        DrawButton (kButtonUp,    window);
-        DrawButton (kButtonLeft,  window);
-        DrawButton (kButtonDown,  window);
-        DrawButton (kButtonRight, window);
+        DrawButton (kButtonOffOn, ctx);
+        DrawButton (kButtonUp,    ctx);
+        DrawButton (kButtonLeft,  ctx);
+        DrawButton (kButtonDown,  ctx);
+        DrawButton (kButtonRight, ctx);
 
-        if (draw) DrawShere3D (light, window);
+        if (draw) DrawSphere3D (light, ctx);
 
-        DisplayWindow(window);
+        DisplayWindow(ctx);
     }
 }
