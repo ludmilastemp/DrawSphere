@@ -2,9 +2,10 @@
 #define STL_GrLib
 
 #include <SFML/Graphics.hpp>
+#include "GrLibCtx.h"
+#include "../objects/button.h"
 #include "../vectors/vector.h"
-#include "../vectors/color.h"
-#include "../button.h"
+#include "../color.h"
 
 const int kWidthWindow  = 400;
 const int kHeightWindow = 300;
@@ -12,17 +13,8 @@ const int kHeightWindow = 300;
 // const int kArrowLength = 25;
 const int kHandCoeff = 7;
 
-class GraphicsCtx
-{
-public:
-    sf::RenderWindow window;
-
-    GraphicsCtx ();
-
-};
-
-void DrawVector    (Vector& vector, GraphicsCtx& ctx);
-void DrawButton    (const Button& button, GraphicsCtx& ctx);
+void DrawVector (Vector& vector, GraphicsCtx& ctx);
+// void DrawButton (const Button& button, GraphicsCtx& ctx);
 
 bool IsWindowOpen          (GraphicsCtx& ctx);
 void CheckEventCloseWindow (GraphicsCtx& ctx);

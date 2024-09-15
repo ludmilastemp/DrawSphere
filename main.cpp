@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 
+#include "tests/testSimple2D.h"
+#include "tests/testSimple3D.h"
+#include "tests/testFollowMouse.h"
+#include "tests/testButtonControl.h"
 #include "test.h"
 
 // ВЕЗДЕ const&
-// sphere
+
 int main()
 {
     printf ("Start\n");
@@ -20,10 +24,12 @@ int main()
         CheckEventCloseWindow (ctx);
         CleanWindow (ctx);
 
-        TestQuick (ctx);
+        // TestSimple2D (ctx);
+        // TestSimple3D (ctx);
         // FollowMouseVector (ctx);
         // FollowMouseSphere (ctx);
-        // ButtonControlSphere (ctx);
+
+        TestButtonControl (ctx);
 
         DisplayWindow(ctx);
     }

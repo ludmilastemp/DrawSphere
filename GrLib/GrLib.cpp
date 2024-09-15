@@ -43,16 +43,6 @@ void DrawLine (Vector& v, Vector n, GraphicsCtx& ctx)
     ctx.window.draw(line, 100, sf::Lines);
 }
 
-void DrawButton (const Button& button, GraphicsCtx& ctx)
-{
-    sf::RectangleShape rectangle;
-    rectangle.setSize(sf::Vector2f(button.size.x, button.size.y));
-    rectangle.setOutlineColor(sf::Color::Green);
-    // rectangle.setOutlineThickness(5);
-    rectangle.setPosition(button.corner.x, button.corner.y);
-    ctx.window.draw(rectangle);
-}
-
 bool IsWindowOpen (GraphicsCtx& ctx)
 {
     return ctx.window.isOpen();
