@@ -29,11 +29,16 @@ void Light::setCoordShift (coord_t x, coord_t y, coord_t z)
     coord.y -= y;
 }
 
+void Light::setColorShift (color_t r, color_t g, color_t b)
+{
+    if (0 <= color.r + r && color.r + r <= 1) color.r += r;
+    if (0 <= color.g + g && color.g + g <= 1) color.g += g;
+    if (0 <= color.b + b && color.b + b <= 1) color.b += b;
+}
+
 void Light::draw (GraphicsCtx& ctx) const
 {
     ;
 }
-
-/**************************************************************************/
 
 /**************************************************************************/

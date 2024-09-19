@@ -7,7 +7,7 @@
 #include "../vectors/vector.h"
 #include "../color.h"
 
-const int kWidthWindow  = 400;
+const int kWidthWindow  = 500;
 const int kHeightWindow = 300;
 
 // const int kArrowLength = 25;

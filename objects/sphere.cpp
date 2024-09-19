@@ -30,6 +30,13 @@ void Sphere::setCoordShift (coord_t x, coord_t y, coord_t z)
     // corner.y += y;
 }
 
+void Sphere::setColorShift (color_t r, color_t g, color_t b)
+{
+    if (0 <= materiaColor.r + r && materiaColor.r + r <= 1) materiaColor.r += r;
+    if (0 <= materiaColor.g + g && materiaColor.g + g <= 1) materiaColor.g += g;
+    if (0 <= materiaColor.b + b && materiaColor.b + b <= 1) materiaColor.b += b;
+}
+
 void Sphere::draw (GraphicsCtx& ctx) const
 {
     DrawSphere3D (*this, ctx, *(this->scene)); 
@@ -73,7 +80,7 @@ void DrawSphere3D (const Sphere& sphere, GraphicsCtx& ctx, Scene& scene)
 
             if (r1 <= sphere.radius * sphere.radius)
             {   
-                Color color = 0;
+                Color color = sphere.materiaColor * sphere.ambientColor;
 
                 for (int q = 0; q < scene.objects.size(); q++)
                 {

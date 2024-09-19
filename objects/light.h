@@ -17,6 +17,7 @@ public:
 
     virtual ObjectType type () const override;         
     virtual void setCoordShift (coord_t x, coord_t y, coord_t z = 0) override;
+    virtual void setColorShift (color_t r, color_t g, color_t b)     override;
     virtual void draw (GraphicsCtx& ctx) const override;
 }; 
 
