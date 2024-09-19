@@ -2,6 +2,7 @@
 #define STL_LIGHT
 
 #include "object.h"
+#include "scene.h"
 #include "../vectors/vector3D.h"
 #include "../GrLib/GrLib.h"
 #include "../color.h"

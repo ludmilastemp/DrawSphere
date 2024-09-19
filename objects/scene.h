@@ -3,20 +3,21 @@
 
 #include "../GrLib/GrLibCtx.h"
 #include <vector>
+#include "object.h"
 
-class Object;
-
-class Scene
+class Scene : public Object
 {
 public:
-    bool isDraw;
     std::vector <Object*> objects;
 
-    Scene (bool isDraw = 0);
+    Scene () : Object(1) {}
 
     void add (Object& object);
-};
 
-void DrawScene (Scene& scene, GraphicsCtx& ctx);
+    virtual ObjectType type () const override;         
+    virtual void setCoordShift (coord_t x, coord_t y, coord_t z = 0) override;
+    virtual void setColorShift (color_t r, color_t g, color_t b)     override;
+    virtual void draw (GraphicsCtx& ctx) const override;
+};
 
 #endif /* STL_SCENE */

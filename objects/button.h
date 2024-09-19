@@ -2,6 +2,7 @@
 #define STL_BUTTON
 
 #include "object.h"
+#include "scene.h"
 #include "actions.h"
 #include "../GrLib/GrLibCtx.h"
 #include "../vectors/vectorDec.h"

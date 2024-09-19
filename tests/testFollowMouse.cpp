@@ -36,7 +36,7 @@ void FollowMouseSphere (GraphicsCtx& ctx)
         light.coord.x = pos.x - kWidthWindow;
         light.coord.y = pos.y - kHeightWindow;
 
-        DrawScene (scene, ctx);
+        scene.draw (ctx);
 
         DisplayWindow(ctx);
     }

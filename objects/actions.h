@@ -3,6 +3,7 @@
 
 #include "actionClass.h"
 #include "object.h"
+#include "lightManager.h"
 
 const int kSpeedButtonControl = 50;
 const double kSpeedColor = 0.1;
@@ -197,6 +198,27 @@ public:
     virtual void call () override
     {
         object.setColorShift (0, 0, -kSpeedColor); 
+    };
+};
+
+/**************************************************************************/
+
+class ActionActivateLightManager : public Action
+{
+public:
+    LightManager& lightManager;
+    Scene& scene;
+
+    ActionActivateLightManager (LightManager& init_lightManager, Scene& init_scene)
+        : lightManager(init_lightManager), scene(init_scene)
+    {}
+
+    virtual void call () override
+    {
+        if (lightManager.activeScene == &scene)
+            lightManager.deActivate();
+        else
+            lightManager.activate(scene); 
     };
 };
 

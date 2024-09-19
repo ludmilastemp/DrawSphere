@@ -14,7 +14,7 @@ void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
     {
         CleanWindow (ctx);
 
-        DrawScene (scene, ctx);
+        scene.draw (ctx);
 
         DisplayWindow(ctx);
     }
@@ -23,7 +23,7 @@ void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
     {
         CleanWindow (ctx);
 
-        DrawScene (scene, ctx);
+        scene.draw (ctx);
 
         DisplayWindow(ctx);
     }
@@ -32,7 +32,7 @@ void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
     {
         CleanWindow (ctx);
 
-        DrawScene (scene, ctx);
+        scene.draw (ctx);
 
         DisplayWindow(ctx);
     }
@@ -41,7 +41,7 @@ void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
     {
         CleanWindow (ctx);
 
-        DrawScene (scene, ctx);
+        scene.draw (ctx);
 
         DisplayWindow(ctx);
     }
@@ -49,7 +49,7 @@ void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
 
 void TestSimple3D (GraphicsCtx& ctx)
 {
-    Scene scene = {};
+    Scene scene {};
 
     Sphere sphere    {true,  250, {0, 1, 1}, {0, 0.005, 0.005}};
     

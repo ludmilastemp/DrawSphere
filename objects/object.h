@@ -1,7 +1,8 @@
 #ifndef STL_OBJECT
 #define STL_OBJECT
 
-#include "scene.h"
+// #include "scene.h"
+#include "../GrLib/GrLibCtx.h"
 #include "../color.h"
 
 using coord_t = int; 
@@ -21,15 +22,19 @@ using coord_t = int;
 
 enum ObjectType // enum class
 {
-    ObjectTypeButton,
-    ObjectTypeLight,
-    ObjectTypeSphere,
+    ObjectTypeSphere,       // сфера
+    ObjectTypeButton,       // кнопка
+    ObjectTypeLight,        // лампочка
+    ObjectTypeScene,        // содержит группу объектов
+    ObjectTypeLightManager, // содержит группу сцен (взаимно-ислючающее)
 };
 
 // enum IsDraw 
 // {
 
 // }
+
+class Scene;
 
 class Object
 {

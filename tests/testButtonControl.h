@@ -7,6 +7,7 @@
 #include "../objects/button.h"
 #include "../objects/sphere.h"
 #include "../objects/light.h"
+#include "../objects/lightManager.h"
 
 void TestButtonControl (GraphicsCtx& ctx);
 
