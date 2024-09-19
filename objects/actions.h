@@ -8,27 +8,6 @@
 const int kSpeedButtonControl = 50;
 const double kSpeedColor = 0.1;
 
-// class MultipleAction : public Action
-// {
-// private:
-//     std::vector<Action*> actions_;
-
-// public:
-//     void addAction(...)
-//     {
-
-//     }
-
-//     virtual void call() override
-//     {
-//         for ( Action* act : actions_ )
-//         {
-//             act->call();
-//         }
-//     }
-// }
-
-
 /**************************************************************************/
 
 class ActionOffOn : public Action

@@ -61,14 +61,18 @@ void TestButtonControl (GraphicsCtx& ctx)
  * Создать и добавить главные объекты
  */
     Sphere sphere {true,  250, {1, 1, 1}, {0.005, 0.005, 0.005}};
-    Light  light1  {false, {kWidthWindow, kHeightWindow,  800}, {1, 1, 1}}; 
-    Light  light2  {false, {kWidthWindow, -kHeightWindow, 800}, {1, 1, 1}}; 
-    LightManager  lightManager {};
+
+    LightManager lightManager {};
+
+    const int nLight = 2;
+    Light lights[nLight] = {
+        {false, {50,  -150, 800}, {0, 1, 1}},   // бирюзовый
+        {false, {500, 150,  800}, {1, 0, 1}}};  // фиолетовый
 
     mainScene.add (*(Object*)&sphere);
-    mainScene.add (*(Object*)&light1);
-    mainScene.add (*(Object*)&light2);
     mainScene.add (*(Object*)&lightManager);
+    for (int iLight = 0; iLight < nLight; iLight++)
+        mainScene.add (*(Object*)&lights[iLight]);
                           
 /*
  * Кнопка: Включить/выключить отрисовку сферу
@@ -102,119 +106,141 @@ void TestButtonControl (GraphicsCtx& ctx)
     mainScene.add (*(Object*)&buttonSphereSubB);
 
 /*
- * Создать сцену для первого источника света
+ * Создать сцены для источников света
  */
-    Scene sceneLight1 {};
-    lightManager.addScene (sceneLight1);
+    Scene scenesLight[nLight] = {{}, {}};
+    for (int iLight = 0; iLight < nLight; iLight++)
+        lightManager.addScene (scenesLight[iLight]);
 
-    Button buttonLight1 = {true, {790, 50}, {70, 70}, {1, 1, 1, kInitialColorAlpha}};
-    // Button buttonLight2 = {true, {890, 50}, {70, 70}, {1, 1, 1, kInitialColorAlpha}};
-    ActionActivateLightManager bLight1 = {lightManager, sceneLight1}; buttonLight1.addAction (&bLight1);
+    Button buttonsLight[nLight] = {
+        {true, {790, 50}, {70, 70}, {1, 1, 1, kInitialColorAlpha}},
+        {true, {890, 50}, {70, 70}, {1, 1, 1, kInitialColorAlpha}}};
+
+    ActionActivateLightManager actButtonsLight[nLight] = { // ctor по умолчанию
+        {lightManager, scenesLight[0]},
+        {lightManager, scenesLight[1]}}; 
+
+    // ActionActivateLightManager actButtonsLight[nLight];
+    // for (int iLight = 0; iLight < nLight; iLight++)
+    //     actButtonsLight[iLight] = {lightManager, scenesLight[iLight]};
     
-    mainScene.add (*(Object*)&buttonLight1);
+    for (int iLight = 0; iLight < nLight; iLight++)
+    {
+        buttonsLight[iLight].addAction (&actButtonsLight[iLight]);
+        mainScene.add (*(Object*)&buttonsLight[iLight]);
+    }
 
 /*
- * Кнопка: Поменять цвет первого источника света
+ * Создать кнопки для изменения цвета источников света
  */
-    Button buttonLight1SubR = {true, {820, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha}};
-    Button buttonLight1AddR = {true, {880, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha + kInitialShiftAlpha}};
-    Button buttonLight1SubG = {true, {820, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha}};
-    Button buttonLight1AddG = {true, {880, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha + kInitialShiftAlpha}};
-    Button buttonLight1SubB = {true, {820, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha}};
-    Button buttonLight1AddB = {true, {880, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha + kInitialShiftAlpha}};
-
-    ActionColorAddR actLigh1tAddR = {light1}; buttonLight1AddR.addAction (&actLigh1tAddR);
-    ActionColorSubR actLigh1tSubR = {light1}; buttonLight1SubR.addAction (&actLigh1tSubR);
-    ActionColorAddG actLigh1tAddG = {light1}; buttonLight1AddG.addAction (&actLigh1tAddG);
-    ActionColorSubG actLigh1tSubG = {light1}; buttonLight1SubG.addAction (&actLigh1tSubG);
-    ActionColorAddB actLigh1tAddB = {light1}; buttonLight1AddB.addAction (&actLigh1tAddB);
-    ActionColorSubB actLigh1tSubB = {light1}; buttonLight1SubB.addAction (&actLigh1tSubB);
-
-    sceneLight1.add (*(Object*)&buttonLight1AddR);
-    sceneLight1.add (*(Object*)&buttonLight1SubR);
-    sceneLight1.add (*(Object*)&buttonLight1AddG);
-    sceneLight1.add (*(Object*)&buttonLight1SubG);
-    sceneLight1.add (*(Object*)&buttonLight1AddB);
-    sceneLight1.add (*(Object*)&buttonLight1SubB);
+    Button buttonLightSubR[nLight] = {
+        {true, {820, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha}},
+        {true, {820, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha}}};
+    Button buttonLightAddR[nLight] = {
+        {true, {880, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha + kInitialShiftAlpha}},
+        {true, {880, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha + kInitialShiftAlpha}}};
+    Button buttonLightSubG[nLight] = {
+        {true, {820, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha}},
+        {true, {820, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha}}};
+    Button buttonLightAddG[nLight] = {
+        {true, {880, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha + kInitialShiftAlpha}},
+        {true, {880, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha + kInitialShiftAlpha}}};
+    Button buttonLightSubB[nLight] = {
+        {true, {820, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha}},
+        {true, {820, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha}}};
+    Button buttonLightAddB[nLight] = {
+        {true, {880, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha + kInitialShiftAlpha}},
+        {true, {880, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha + kInitialShiftAlpha}}};
 
 /*
- * Кнопка: Поменять координаты лампы первого источника света
+ * Создать action для кнопки для изменения цвета источников света
  */
-    Button buttonLight1Up    = {true, {850, 150}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight1Down  = {true, {850, 250}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight1Left  = {true, {800, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight1Right = {true, {900, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
+    ActionColorAddR actLightAddR[nLight] = {{lights[0]}, {lights[1]}};
+    ActionColorSubR actLightSubR[nLight] = {{lights[0]}, {lights[1]}};
+    ActionColorAddG actLightAddG[nLight] = {{lights[0]}, {lights[1]}};
+    ActionColorSubG actLightSubG[nLight] = {{lights[0]}, {lights[1]}};
+    ActionColorAddB actLightAddB[nLight] = {{lights[0]}, {lights[1]}};
+    ActionColorSubB actLightSubB[nLight] = {{lights[0]}, {lights[1]}};
 
-    ActionMoveUp    actbLight1Up   = {light1};  buttonLight1Up.addAction    (&actbLight1Up);
-    ActionMoveDown  actbLight1Down = {light1};  buttonLight1Down.addAction  (&actbLight1Down);
-    ActionMoveLeft  actbLight1Left = {light1};  buttonLight1Left.addAction  (&actbLight1Left);
-    ActionMoveRight actbLight1Right= {light1};  buttonLight1Right.addAction (&actbLight1Right);
+    for (int iLight = 0; iLight < nLight; iLight++) 
+    {
+        /*
+        * Добавить action для кнопки для изменения цвета источников света
+        */
 
-    sceneLight1.add (*(Object*)&buttonLight1Up);
-    sceneLight1.add (*(Object*)&buttonLight1Left);
-    sceneLight1.add (*(Object*)&buttonLight1Down);
-    sceneLight1.add (*(Object*)&buttonLight1Right);
+        buttonLightAddR[iLight].addAction (&actLightAddR[iLight]);
+        buttonLightSubR[iLight].addAction (&actLightSubR[iLight]);
+        buttonLightAddG[iLight].addAction (&actLightAddG[iLight]);
+        buttonLightSubG[iLight].addAction (&actLightSubG[iLight]);
+        buttonLightAddB[iLight].addAction (&actLightAddB[iLight]);
+        buttonLightSubB[iLight].addAction (&actLightSubB[iLight]);
+
+        /*
+        * Добавить кнопки в сцену
+        */
+
+        scenesLight[iLight].add (*(Object*)&buttonLightAddR[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightSubR[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightAddG[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightSubG[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightAddB[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightSubB[iLight]);
+    }
 
 /*
- * Создать сцену для второго источника света
+ * Создать кнопки для изменения координат источников света
  */
-    Scene sceneLight2 {};
-    lightManager.addScene (sceneLight2);
-
-    Button buttonLight2 = {true, {890, 50}, {70, 70}, {1, 1, 1, kInitialColorAlpha}};
-    ActionActivateLightManager bLight2 = {lightManager, sceneLight2}; buttonLight2.addAction (&bLight2);
-    
-    mainScene.add (*(Object*)&buttonLight2);
+    Button buttonLightUp[nLight] = {
+        {true, {850, 150}, {50, 50}, {1, 1, 1, kInitialColorAlpha}},
+        {true, {850, 150}, {50, 50}, {1, 1, 1, kInitialColorAlpha}}};
+    Button buttonLightDown[nLight] = {
+        {true, {850, 250}, {50, 50}, {1, 1, 1, kInitialColorAlpha}},
+        {true, {850, 250}, {50, 50}, {1, 1, 1, kInitialColorAlpha}}};
+    Button buttonLightLeft[nLight] = {
+        {true, {800, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}},
+        {true, {800, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}}};
+    Button buttonLightRight[nLight] = {
+        {true, {900, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}},
+        {true, {900, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}}};
 
 /*
- * Кнопка: Поменять цвет второго источника света
+ * Создать action для кнопки для изменения координат источников света
  */
-    Button buttonLight2SubR = {true, {820, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha}};
-    Button buttonLight2AddR = {true, {880, 350}, {50, 50}, {1, 0, 0, kInitialColorAlpha + kInitialShiftAlpha}};
-    Button buttonLight2SubG = {true, {820, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha}};
-    Button buttonLight2AddG = {true, {880, 410}, {50, 50}, {0, 1, 0, kInitialColorAlpha + kInitialShiftAlpha}};
-    Button buttonLight2SubB = {true, {820, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha}};
-    Button buttonLight2AddB = {true, {880, 470}, {50, 50}, {0, 0, 1, kInitialColorAlpha + kInitialShiftAlpha}};
+    ActionMoveUp actbLightUp[nLight]       = {{lights[0]}, {lights[1]}};
+    ActionMoveDown actbLightDown[nLight]   = {{lights[0]}, {lights[1]}};
+    ActionMoveLeft actbLightLeft[nLight]   = {{lights[0]}, {lights[1]}};
+    ActionMoveRight actbLightRight[nLight] = {{lights[0]}, {lights[1]}};
 
-    ActionColorAddR actLigh2tAddR = {light2}; buttonLight2AddR.addAction (&actLigh2tAddR);
-    ActionColorSubR actLigh2tSubR = {light2}; buttonLight2SubR.addAction (&actLigh2tSubR);
-    ActionColorAddG actLigh2tAddG = {light2}; buttonLight2AddG.addAction (&actLigh2tAddG);
-    ActionColorSubG actLigh2tSubG = {light2}; buttonLight2SubG.addAction (&actLigh2tSubG);
-    ActionColorAddB actLigh2tAddB = {light2}; buttonLight2AddB.addAction (&actLigh2tAddB);
-    ActionColorSubB actLigh2tSubB = {light2}; buttonLight2SubB.addAction (&actLigh2tSubB);
+    for (int iLight = 0; iLight < nLight; iLight++) 
+    {
+        /*
+        * Добавить action для кнопки для изменения координат источников света
+        */
 
-    sceneLight2.add (*(Object*)&buttonLight2AddR);
-    sceneLight2.add (*(Object*)&buttonLight2SubR);
-    sceneLight2.add (*(Object*)&buttonLight2AddG);
-    sceneLight2.add (*(Object*)&buttonLight2SubG);
-    sceneLight2.add (*(Object*)&buttonLight2AddB);
-    sceneLight2.add (*(Object*)&buttonLight2SubB);
+        buttonLightUp[iLight].addAction    (&actbLightUp[iLight]);
+        buttonLightDown[iLight].addAction  (&actbLightDown[iLight]);
+        buttonLightLeft[iLight].addAction  (&actbLightLeft[iLight]);
+        buttonLightRight[iLight].addAction (&actbLightRight[iLight]);
 
-/*
- * Кнопка: Поменять координаты лампы второго источника света
- */
-    Button buttonLight2Up    = {true, {850, 150}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight2Down  = {true, {850, 250}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight2Left  = {true, {800, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
-    Button buttonLight2Right = {true, {900, 200}, {50, 50}, {1, 1, 1, kInitialColorAlpha}};
+        /*
+        * Добавить кнопки в сцену
+        */
 
-    ActionMoveUp    actbLight2Up   = {light2};  buttonLight2Up.addAction    (&actbLight2Up);
-    ActionMoveDown  actbLight2Down = {light2};  buttonLight2Down.addAction  (&actbLight2Down);
-    ActionMoveLeft  actbLight2Left = {light2};  buttonLight2Left.addAction  (&actbLight2Left);
-    ActionMoveRight actbLight2Right= {light2};  buttonLight2Right.addAction (&actbLight2Right);
+        scenesLight[iLight].add (*(Object*)&buttonLightUp[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightLeft[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightDown[iLight]);
+        scenesLight[iLight].add (*(Object*)&buttonLightRight[iLight]);
+    }
 
-    sceneLight2.add (*(Object*)&buttonLight2Up);
-    sceneLight2.add (*(Object*)&buttonLight2Left);
-    sceneLight2.add (*(Object*)&buttonLight2Down);
-    sceneLight2.add (*(Object*)&buttonLight2Right);
-
-while (true)
+    while (true)
     {
         sf::Event event;
         while (ctx.window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 return;
+            }
             
             // sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
             
@@ -227,4 +253,5 @@ while (true)
 
         DisplayWindow(ctx);
     }
+
 }
