@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 GraphicsCtx::GraphicsCtx ()
-    :window(sf::VideoMode(kWidthWindow * 2, kHeightWindow * 2), "SFML works!")
+    :window(sf::VideoMode(kWidthWindow * 2, kHeightWindow * 2), "SFML works!"), event()//sf::Event 
 {
     sf::Image img;
     img.create(kWidthWindow * 2, kHeightWindow * 2, sf::Color::Black);

@@ -27,7 +27,7 @@ void Scene::draw (GraphicsCtx& ctx) const
 {
     if (isDraw == 0) return;
     
-    for (int i = 0; i < objects.size(); i++)
+    for (size_t i = 0; i < objects.size(); i++)
     {
         if (objects[i]->isDraw)
         {

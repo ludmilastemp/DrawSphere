@@ -43,7 +43,7 @@ public:
     Scene* scene;
 
     Object (bool isDraw = 0);
-    ~Object (){} /// virtual
+    virtual ~Object () = default;/// virtual
 
 /// + метод который меняет сцену
 

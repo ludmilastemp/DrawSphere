@@ -9,8 +9,6 @@
 
 #include <assert.h>
 
-// (*button.actions[i])()
-
 class Button : public Object
 {
 public:

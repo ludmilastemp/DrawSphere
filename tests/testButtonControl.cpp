@@ -1,45 +1,31 @@
 #include "testButtonControl.h"
+#include <chrono>
 
-const double kColorSpeed = 0.05;
+const double kColorChangeSpeed = 0.05;
 const double kInitialColorAlpha = 0.15;
 const double kInitialShiftAlpha = 0.03;
 
-void ActiveScene (Scene& scene, GraphicsCtx& ctx, sf::Event& event)
+void ActiveScene (Scene& scene, GraphicsCtx& ctx);
+void ButtonManager (Button& button, GraphicsCtx& ctx);
+
+void ActiveScene (Scene& scene, GraphicsCtx& ctx) 
 {
-    for (int i = 0; i < scene.objects.size(); i++)
+    for (size_t i = 0; i < scene.objects.size(); i++)
     {
         switch (scene.objects[i]->type())
         {
             case (ObjectTypeButton):
             {
                 Button& button = *(Button*)(scene.objects[i]);
-                sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
-
-                if (button.isDraw == 1 && IsButton (pos, button))
-                {
-                    if (event.type == sf::Event::MouseButtonPressed &&
-                        event.mouseButton.button == sf::Mouse::Left)
-                    {
-                        for (int act = 0; act < button.actions.size(); act++)
-                        {
-                            button.actions[act]->call();
-                        }
-                    }
-                    if (button.color.a + kColorSpeed < 1) 
-                        button.color.a += kColorSpeed;
-                }
-                else 
-                {
-                    if (button.color.a - kColorSpeed > kInitialColorAlpha) 
-                        button.color.a -= kColorSpeed;
-                }
+                ButtonManager (button, ctx);
                 break;
             }
             case (ObjectTypeLightManager):
             {
                 LightManager& lightManager = *(LightManager*)(scene.objects[i]);
                 if (lightManager.activeScene != nullptr)
-                    ActiveScene (*lightManager.activeScene, ctx, event);
+                    ActiveScene (*lightManager.activeScene, ctx);
+                break;
             }
             case (ObjectTypeLight):
             case (ObjectTypeSphere):
@@ -47,6 +33,29 @@ void ActiveScene (Scene& scene, GraphicsCtx& ctx, sf::Event& event)
             default: 
                 ;
         }
+    }
+}
+
+void ButtonManager (Button& button, GraphicsCtx& ctx)
+{
+    sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
+    if (button.isDraw == 1 && IsButton (pos, button))
+    {
+        if (ctx.event.type == sf::Event::MouseButtonPressed &&
+            ctx.event.mouseButton.button == sf::Mouse::Left)
+        {
+            for (size_t act = 0; act < button.actions.size(); act++)
+            {
+                (*button.actions[act])();
+            }
+        }
+        if (button.color.a + kColorChangeSpeed < 1) 
+            button.color.a += kColorChangeSpeed;
+    }
+    else 
+    {
+        if (button.color.a - kColorChangeSpeed >= kInitialColorAlpha) 
+            button.color.a -= kColorChangeSpeed;
     }
 }
 
@@ -119,10 +128,6 @@ void TestButtonControl (GraphicsCtx& ctx)
     ActionActivateLightManager actButtonsLight[nLight] = { // ctor по умолчанию
         {lightManager, scenesLight[0]},
         {lightManager, scenesLight[1]}}; 
-
-    // ActionActivateLightManager actButtonsLight[nLight];
-    // for (int iLight = 0; iLight < nLight; iLight++)
-    //     actButtonsLight[iLight] = {lightManager, scenesLight[iLight]};
     
     for (int iLight = 0; iLight < nLight; iLight++)
     {
@@ -232,24 +237,43 @@ void TestButtonControl (GraphicsCtx& ctx)
         scenesLight[iLight].add (*(Object*)&buttonLightRight[iLight]);
     }
 
+/*
+ * Создать текст
+ */
+    sf::Font font;
+    font.loadFromFile("/media/ludmila/1308FE611F0B7EEB/Windows/Fonts/arial.ttf");
+    
+    sf::Text textOn("On", font);
+    textOn.setCharacterSize(20);
+    textOn.setFillColor(sf::Color::White);
+    textOn.setPosition(100, 60);
+
+    sf::Text textOff("Off", font);
+    textOff.setCharacterSize(20);
+    textOff.setFillColor(sf::Color::White);
+    textOff.setPosition(99, 85);
+        
+    // 0.002 секунды
+    // printf ("%lg\n", buttonLightUp[0].color.a);
+
     while (true)
     {
-        sf::Event event;
-        while (ctx.window.pollEvent(event))
+        while (ctx.window.pollEvent(ctx.event))
         {
-            if (event.type == sf::Event::Closed)
+            if (ctx.event.type == sf::Event::Closed)
             {
+                // printf ("%lg\n", buttonLightUp[0].color.a);
                 return;
             }
-            
-            // sf::Vector2i pos = sf::Mouse::getPosition(ctx.window);
-            
-            ActiveScene (mainScene, ctx, event);
+        ActiveScene (mainScene, ctx);
         }
         
         CleanWindow (ctx);
+        
 
         mainScene.draw (ctx);
+        ctx.window.draw(textOn);
+        ctx.window.draw(textOff);
 
         DisplayWindow(ctx);
     }

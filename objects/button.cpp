@@ -1,5 +1,5 @@
 #include "button.h"
-
+#include "light.h"
 
 void DrawButton (const Button& button, GraphicsCtx& ctx);
 
@@ -52,9 +52,29 @@ bool IsButton (const sf::Vector2i& pos, const Button& button)
 
 void DrawButton (const Button& button, GraphicsCtx& ctx)
 {
+    Color buttonColor = button.color * 255;
+    if (button.actions.size() > 0 &&
+        button.actions[0]->type() == ActionTypeActivateLightManager)
+    {
+        const Button& buttonsLight = button;
+
+        ActionActivateLightManager& actButtonsLight = 
+            *(ActionActivateLightManager*)(buttonsLight.actions[0]);
+
+        Scene& scenesLight = actButtonsLight.scene;
+
+        Button& buttonLightAddR = *(Button*)(scenesLight.objects[0]);
+
+        ActionColorAddR& actLightAddR = *(ActionColorAddR*)buttonLightAddR.actions[0];
+
+        Light& light = *(Light*)(&actLightAddR.object);
+
+        buttonColor.r = light.color.r * 255;
+        buttonColor.g = light.color.g * 255;
+        buttonColor.b = light.color.b * 255;
+    }
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(button.size.x, button.size.y));
-    Color buttonColor = button.color * 255;
     rectangle.setFillColor(sf::Color (buttonColor.r, buttonColor.g, buttonColor.b, buttonColor.a));
     // rectangle.setOutlineThickness(5);
     rectangle.setPosition(button.corner.x, button.corner.y);

@@ -18,6 +18,11 @@ public:
     ActionOffOn (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeOffOn;
+    }
 
     virtual void call () override
     {
@@ -36,6 +41,11 @@ public:
     ActionMoveUp (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeMoveUp;
+    }
 
     virtual void call () override 
     {
@@ -51,6 +61,11 @@ public:
     ActionMoveDown (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeMoveDown;
+    }
 
     virtual void call () override
     {
@@ -66,6 +81,11 @@ public:
     ActionMoveLeft (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeMoveLeft;
+    }
 
     virtual void call () override
     {
@@ -81,6 +101,11 @@ public:
     ActionMoveRight (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeMoveRight;
+    }
 
     virtual void call () override
     {
@@ -98,6 +123,11 @@ public:
     ActionColorAddR (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorAddR;
+    }
 
     virtual void call () override
     {
@@ -113,6 +143,11 @@ public:
     ActionColorSubR (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorSubR;
+    }
 
     virtual void call () override
     {
@@ -128,6 +163,11 @@ public:
     ActionColorAddG (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorAddG;
+    }
 
     virtual void call () override
     {
@@ -143,6 +183,11 @@ public:
     ActionColorSubG (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorSubG;
+    }
 
     virtual void call () override
     {
@@ -158,6 +203,11 @@ public:
     ActionColorAddB (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorAddB;
+    }
 
     virtual void call () override
     {
@@ -173,6 +223,11 @@ public:
     ActionColorSubB (Object& init_object)
         : object(init_object)
     {}
+    
+    ActionType type () 
+    {
+        return ActionTypeColorSubB;
+    }
 
     virtual void call () override
     {
@@ -191,6 +246,11 @@ public:
     ActionActivateLightManager (LightManager& init_lightManager, Scene& init_scene)
         : lightManager(init_lightManager), scene(init_scene)
     {}
+
+    ActionType type () 
+    {
+        return ActionTypeActivateLightManager;
+    }
 
     virtual void call () override
     {

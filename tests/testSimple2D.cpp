@@ -2,6 +2,9 @@
 
 #include <math.h>  
 
+void PrintCyrcle (GraphicsCtx& ctx);
+void PrintRect (GraphicsCtx& ctx);
+
 void PrintCyrcle (GraphicsCtx& ctx)
 {
     Vector v {250, 0.0};

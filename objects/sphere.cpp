@@ -6,6 +6,7 @@
 const Vector3D kViewer  = {0, 0, 300};
 
 void DrawSphere3D (const Sphere& sphere, GraphicsCtx& ctx, Scene& scene);
+Color ComputeLightColor (const Sphere& sphere, const Vector3D& point, const Light& light);
 
 /**************************************************************************/
 
@@ -82,7 +83,7 @@ void DrawSphere3D (const Sphere& sphere, GraphicsCtx& ctx, Scene& scene)
             {   
                 Color color = sphere.materiaColor * sphere.ambientColor;
 
-                for (int q = 0; q < scene.objects.size(); q++)
+                for (size_t q = 0; q < scene.objects.size(); q++)
                 {
                     if (scene.objects[q]->type() == ObjectTypeLight)
                     {   
@@ -93,7 +94,7 @@ void DrawSphere3D (const Sphere& sphere, GraphicsCtx& ctx, Scene& scene)
                 color.clamp();
                 color = color * 255;
 
-                points[j + kHeightWindow] = 
+                points[(size_t)j + kHeightWindow] = 
                     sf::Vertex(sf::Vector2f(i + kWidthWindow, j + kHeightWindow), 
                                 sf::Color (color.r, color.g, color.b));
             }

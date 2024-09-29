@@ -4,6 +4,8 @@ const int kLightZ             = 1000;
 const int kLightIntervalTest  = 1000;
 const int kSpeedSphereTest    = 250;
 
+void TestSphere3D (GraphicsCtx& ctx, Scene& scene);
+
 void TestSphere3D (GraphicsCtx& ctx, Scene& scene)
 {
     ((Light*)scene.objects[2])->coord = {-kLightIntervalTest, -kLightIntervalTest, kLightZ};

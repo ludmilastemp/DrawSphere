@@ -14,7 +14,6 @@ const int kHeightWindow = 300;
 const int kHandCoeff = 7;
 
 void DrawVector (Vector& vector, GraphicsCtx& ctx);
-// void DrawButton (const Button& button, GraphicsCtx& ctx);
 
 bool IsWindowOpen          (GraphicsCtx& ctx);
 void CheckEventCloseWindow (GraphicsCtx& ctx);
