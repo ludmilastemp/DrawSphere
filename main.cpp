@@ -5,7 +5,6 @@
 #include "tests/testSimple3D.h"
 #include "tests/testFollowMouse.h"
 #include "tests/testButtonControl.h"
-#include "test.h"
 
 // ВЕЗДЕ const&
 
