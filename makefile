@@ -16,7 +16,6 @@ a.out:
 		tests/testSimple3D.cpp  	\
 		tests/testFollowMouse.cpp  	\
 		tests/testButtonControl.cpp	\
-		test.cpp    	        	\
 		-Wno-narrowing          	\
 		-Wno-unused-parameter		\
 		-lsfml-graphics -lsfml-window -lsfml-system \
